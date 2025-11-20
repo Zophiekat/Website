@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Adjust links in header
                 let processedData = data;
                 if (isPagesDir) {
-                    // Add ../ to hrefs that don't start with http, #, or mailto
-                    processedData = data.replace(/href="(?!(http|#|mailto))(.*?)"/g, `href="../$2"`);
+                    // Add ../ to hrefs that don't start with http, #, mailto, or /
+                    processedData = data.replace(/href="(?!(http|#|mailto|\/))(.*?)"/g, `href="../$2"`);
                 }
                 headerPlaceholder.innerHTML = processedData;
                 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Adjust links in footer if needed (similar to header)
                 let processedData = data;
                 if (isPagesDir) {
-                     processedData = data.replace(/href="(?!(http|#|mailto))(.*?)"/g, `href="../$2"`);
+                     processedData = data.replace(/href="(?!(http|#|mailto|\/))(.*?)"/g, `href="../$2"`);
                 }
                 footerPlaceholder.innerHTML = processedData;
             }
