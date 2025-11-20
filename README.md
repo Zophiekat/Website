@@ -7,7 +7,7 @@ Welcome to my art portfolio! This project showcases my artwork and provides info
 The project is organized as follows:
 
 ```
-art-portfolio
+.
 ├── index.html          # Main entry point for the portfolio
 ├── css
 │   ├── main.css       # Custom styles for the portfolio
@@ -28,7 +28,7 @@ art-portfolio
 
 ## Getting Started
 
-To view the portfolio, open the `home.html` file in your web browser. This file serves as the main entry point and links to all necessary CSS and JavaScript files.
+To view the portfolio, open the `index.html` file in your web browser. This file serves as the main entry point and links to all necessary CSS and JavaScript files.
 
 ### Prerequisites
 
@@ -37,7 +37,7 @@ Make sure you have a modern web browser to view the portfolio correctly.
 ### AI Protection (Glaze)
 
 This project uses [Glaze](https://glaze.cs.uchicago.edu/) to protect artwork from AI mimicry.
-Please refer to [GLAZE_WORKFLOW.md](../GLAZE_WORKFLOW.md) for instructions on how to process new artwork before adding it to the site.
+Please refer to [GLAZE_WORKFLOW.md](GLAZE_WORKFLOW.md) for instructions on how to process new artwork before adding it to the site.
 
 ### Installation
 
@@ -47,7 +47,7 @@ Please refer to [GLAZE_WORKFLOW.md](../GLAZE_WORKFLOW.md) for instructions on ho
    ```
 2. Navigate to the project directory:
    ```
-   cd art-portfolio
+   cd Website
    ```
 3. Open `index.html` in your preferred web browser.
 
