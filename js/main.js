@@ -50,11 +50,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to highlight current page in navigation
     function highlightCurrentPage() {
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        let currentPage = window.location.pathname.split('/').pop();
+        // Normalize home page identifier
+        if (currentPage === '' || currentPage === 'index.html') {
+            currentPage = 'home';
+        }
+        
         const navLinks = document.querySelectorAll('nav a');
         
         navLinks.forEach(link => {
-            const linkHref = link.getAttribute('href').split('/').pop();
+            let linkHref = link.getAttribute('href');
+            
+            // Handle the home link special cases (/, ../, index.html)
+            if (linkHref === '/' || linkHref === '../' || linkHref === 'index.html' || linkHref.endsWith('index.html')) {
+                linkHref = 'home';
+            } else {
+                // For other pages, just get the filename
+                linkHref = linkHref.split('/').pop();
+            }
+            
             if (currentPage === linkHref) {
                 link.classList.add('active');
             }
