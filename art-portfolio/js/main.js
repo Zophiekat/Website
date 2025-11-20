@@ -1,57 +1,85 @@
 // Modern Art Portfolio JavaScript - 2023
 
-// Function to include header and footer
 document.addEventListener('DOMContentLoaded', function() {
+    // Determine base path
+    const isPagesDir = window.location.pathname.includes('/pages/');
+    const basePath = isPagesDir ? '../' : '';
+
     // Load header
-    fetch('/art-portfolio/includes/header.html')
-        .then(response => response.text())
+    fetch(`${basePath}includes/header.html`)
+        .then(response => {
+            if (!response.ok) throw new Error('Header not found');
+            return response.text();
+        })
         .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-            
-            // Highlight current page in navigation
-            highlightCurrentPage();
+            const headerPlaceholder = document.getElementById('header-placeholder');
+            if (headerPlaceholder) {
+                // Adjust links in header
+                let processedData = data;
+                if (isPagesDir) {
+                    // Add ../ to hrefs that don't start with http, #, or mailto
+                    processedData = data.replace(/href="(?!(http|#|mailto))(.*?)"/g, `href="../$2"`);
+                }
+                headerPlaceholder.innerHTML = processedData;
+                
+                // Initialize navigation features after header is loaded
+                highlightCurrentPage();
+                initMobileMenu();
+            }
         })
         .catch(error => console.error('Error loading header:', error));
     
     // Load footer
-    fetch('/art-portfolio/includes/footer.html')
-        .then(response => response.text())
+    fetch(`${basePath}includes/footer.html`)
+        .then(response => {
+            if (!response.ok) throw new Error('Footer not found');
+            return response.text();
+        })
         .then(data => {
-            document.getElementById('footer-placeholder').innerHTML = data;
+            const footerPlaceholder = document.getElementById('footer-placeholder');
+            if (footerPlaceholder) {
+                // Adjust links in footer if needed (similar to header)
+                let processedData = data;
+                if (isPagesDir) {
+                     processedData = data.replace(/href="(?!(http|#|mailto))(.*?)"/g, `href="../$2"`);
+                }
+                footerPlaceholder.innerHTML = processedData;
+            }
         })
         .catch(error => console.error('Error loading footer:', error));
     
     // Function to highlight current page in navigation
     function highlightCurrentPage() {
-        const currentPage = window.location.pathname;
+        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
         const navLinks = document.querySelectorAll('nav a');
         
         navLinks.forEach(link => {
-            if (currentPage.includes(link.getAttribute('href'))) {
+            const linkHref = link.getAttribute('href').split('/').pop();
+            if (currentPage === linkHref) {
                 link.classList.add('active');
             }
         });
     }
-});
 
-document.addEventListener('DOMContentLoaded', function() {
     // Mobile Navigation Toggle
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('nav');
-    
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            menuToggle.classList.toggle('active');
-            nav.classList.toggle('active');
-        });
+    function initMobileMenu() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const nav = document.querySelector('nav');
         
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('nav') && !event.target.closest('.menu-toggle') && nav.classList.contains('active')) {
-                menuToggle.classList.remove('active');
-                nav.classList.remove('active');
-            }
-        });
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                menuToggle.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('nav') && !event.target.closest('.menu-toggle') && nav.classList.contains('active')) {
+                    menuToggle.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        }
     }
     
     // Gallery Category Filters
@@ -117,6 +145,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetElement.scrollIntoView({ behavior: 'smooth' });
                 
                 // Close mobile menu after click
+                const menuToggle = document.querySelector('.menu-toggle');
+                const nav = document.querySelector('nav');
                 if (menuToggle && menuToggle.classList.contains('active')) {
                     menuToggle.classList.remove('active');
                     nav.classList.remove('active');
@@ -126,59 +156,67 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Image gallery lightbox
-    const galleryImages = document.querySelectorAll('.gallery-item img');
-    galleryImages.forEach(image => {
-        image.addEventListener('click', function() {
-            // Create lightbox elements
-            const lightbox = document.createElement('div');
-            lightbox.classList.add('lightbox');
-            
-            const lightboxContent = document.createElement('div');
-            lightboxContent.classList.add('lightbox-content');
-            
-            const closeBtn = document.createElement('span');
-            closeBtn.classList.add('close-lightbox');
-            closeBtn.innerHTML = '&times;';
-            
-            const img = document.createElement('img');
-            img.src = this.src;
-            img.alt = this.alt;
-            
-            const caption = document.createElement('p');
-            caption.textContent = this.alt || 'Artwork';
-            
-            // Assemble and append lightbox to page
-            lightboxContent.appendChild(closeBtn);
-            lightboxContent.appendChild(img);
-            lightboxContent.appendChild(caption);
-            lightbox.appendChild(lightboxContent);
-            document.body.appendChild(lightbox);
-            
-            // Prevent scrolling when lightbox is open
-            document.body.style.overflow = 'hidden';
-            
-            // Close lightbox function
-            const closeLightbox = function() {
-                document.body.removeChild(lightbox);
-                document.body.style.overflow = '';
-            };
-            
-            // Close lightbox events
-            closeBtn.addEventListener('click', closeLightbox);
-            lightbox.addEventListener('click', function(e) {
-                if (e.target === lightbox) {
-                    closeLightbox();
-                }
-            });
-            
-            // Close on escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeLightbox();
-                }
-            });
+    // Use event delegation for dynamically loaded images or just wait for load
+    // Since images are hardcoded in HTML, this is fine, but let's be safe
+    const galleryGrid = document.querySelector('.gallery-grid');
+    if (galleryGrid) {
+        galleryGrid.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                openLightbox(e.target);
+            }
         });
-    });
+    }
+
+    function openLightbox(image) {
+        // Create lightbox elements
+        const lightbox = document.createElement('div');
+        lightbox.classList.add('lightbox');
+        
+        const lightboxContent = document.createElement('div');
+        lightboxContent.classList.add('lightbox-content');
+        
+        const closeBtn = document.createElement('span');
+        closeBtn.classList.add('close-lightbox');
+        closeBtn.innerHTML = '&times;';
+        
+        const img = document.createElement('img');
+        img.src = image.src;
+        img.alt = image.alt;
+        
+        const caption = document.createElement('p');
+        caption.textContent = image.alt || 'Artwork';
+        
+        // Assemble and append lightbox to page
+        lightboxContent.appendChild(closeBtn);
+        lightboxContent.appendChild(img);
+        lightboxContent.appendChild(caption);
+        lightbox.appendChild(lightboxContent);
+        document.body.appendChild(lightbox);
+        
+        // Prevent scrolling when lightbox is open
+        document.body.style.overflow = 'hidden';
+        
+        // Close lightbox function
+        const closeLightbox = function() {
+            document.body.removeChild(lightbox);
+            document.body.style.overflow = '';
+        };
+        
+        // Close lightbox events
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    }
     
     // Form validation for contact form
     const contactForm = document.querySelector('.contact-form');

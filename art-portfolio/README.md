@@ -28,11 +28,16 @@ art-portfolio
 
 ## Getting Started
 
-To view the portfolio, open the `index.html` file in your web browser. This file serves as the main entry point and links to all necessary CSS and JavaScript files.
+To view the portfolio, open the `home.html` file in your web browser. This file serves as the main entry point and links to all necessary CSS and JavaScript files.
 
 ### Prerequisites
 
 Make sure you have a modern web browser to view the portfolio correctly.
+
+### AI Protection (Glaze)
+
+This project uses [Glaze](https://glaze.cs.uchicago.edu/) to protect artwork from AI mimicry.
+Please refer to [GLAZE_WORKFLOW.md](../GLAZE_WORKFLOW.md) for instructions on how to process new artwork before adding it to the site.
 
 ### Installation
 
