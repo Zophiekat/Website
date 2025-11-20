@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to highlight current page in navigation
     function highlightCurrentPage() {
-        const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
         const navLinks = document.querySelectorAll('nav a');
         
         navLinks.forEach(link => {
