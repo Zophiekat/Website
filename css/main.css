@@ -2,9 +2,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
-    --header-bg-color: #845ce9;      /* was --primary-color */
+    --header-background-color: #845ce9;      /* was --primary-color */
     --title-text-color: #ffffff;     /* NEW: for headings and labels */
     --button-accent-color: #833ce7;   /* was --accent-color */
+
+
+    --navigation-button-text-color: #e3e3e3;
+    --navigation-button-text-color-hover: #ffffff;
+    --navigation-button-text-outline-color: #3b3b3b;
+    --navigation-button-text-outline-color-hover: #4d4d4d;
+    --navigation-button-text-outline-stroke-width: 3.5px;
+
+    --nagivation-button-background-color: #49366c;
+    --nagivation-button-background-color-hover: #5d4886;
+    --nagivation-button-background-border-color: #2c2141;
+    --nagivation-button-background-border-color-hover: #3d2863;
+
     --body-bg-color: #171021;         /* was --page-color */
     --secondary-accent-color: #91590f; /* was --dark-color */
     --light-text-color: #ffffff;      /* was --text-color */
@@ -15,7 +28,7 @@
     --shadow-blur: 32px;           /* blur radius */
     --shadow-color: rgba(44, 38, 117, 0.5);  /* shadow color with 50% opacity */
     --box-shadow: var(--shadow-h-offset) var(--shadow-v-offset) var(--shadow-blur) var(--shadow-color);
-    --transition: all 0.3s ease;
+    --transition: all 0.1s ease;
 }
 
 * {
@@ -38,7 +51,7 @@ body {
 /* Header */
 header {
     /* Header background color */
-    background: var(--header-bg-color);
+    background: var(--header-background-color);
 
     /* Text Color*/
     color: var(--light-text-color);
@@ -50,7 +63,7 @@ header {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Robotto', sans-serif;
     margin-bottom: 1rem;
 }
 
@@ -79,6 +92,15 @@ h2 {
 .logo {
     display: flex;
     align-items: center;
+    gap: 15px;
+}
+
+.logo img {
+    height: 100%;
+    width: auto;
+    border-radius: 20px;
+    object-fit: contain;
+    max-height: 80px;
 }
 
 .logo h1 {
@@ -120,33 +142,28 @@ nav li {
 }
 
 nav a {
-    color: var(--light-text-color);  /* Changed from --page-color to --text-color */
+    color: var(--navigation-button-text-color);
     text-decoration: none;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    padding: 5px 0;
+    padding: 8px 12px;
     position: relative;
     transition: var(--transition);
+    -webkit-text-stroke: var(--navigation-button-text-outline-stroke-width) var(--navigation-button-text-outline-color);
+    paint-order: stroke fill;
+    background-color: var(--nagivation-button-background-color);
+    border-bottom: 3px solid var(--nagivation-button-background-border-color);
+    border-radius: 4px;
 }
 
-nav a::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: var(--button-accent-color);
-    transition: var(--transition);
-}
-
+/* change header page button color on hover */
 nav a:hover {
-    color: var(--button-accent-color);
-}
-
-nav a:hover::after {
-    width: 100%;
+    color: var(--navigation-button-text-color-hover);
+    -webkit-text-stroke: var(--navigation-button-text-outline-stroke-width) var(--navigation-button-text-outline-color-hover);
+    paint-order: stroke fill;
+    background-color: var(--nagivation-button-background-color-hover);
+    border-bottom-color: var(--nagivation-button-background-border-color-hover);
 }
 
 /* Mobile Navigation */
@@ -173,7 +190,7 @@ nav a:hover::after {
         right: -100%;
         width: 70%;
         height: 100vh;
-        background-color: var(--header-bg-color);
+        background-color: var(--header-background-color);
         z-index: 100;
         transition: var(--transition);
         display: flex;
@@ -222,7 +239,7 @@ section {
 }
 
 footer {
-    background: var(--header-bg-color);
+    background: var(--header-background-color);
     color: var(--light-text-color);
     text-align: center;
     padding: 20px 0;
@@ -379,7 +396,7 @@ footer {
 }
 
 .close-lightbox:hover {
-    background-color: var(--header-bg-color);
+    background-color: var(--header-background-color);
     transform: scale(1.1);
 }
 
@@ -433,7 +450,7 @@ footer {
 }
 
 .btn-submit:hover {
-    background-color: var(--header-bg-color);
+    background-color: var(--header-background-color);
     transform: translateY(-3px);
 }
 
@@ -634,7 +651,7 @@ footer {
 }
 
 .btn-primary:hover {
-    background-color: var(--header-bg-color);
+    background-color: var(--header-background-color);
     transform: translateY(-3px);
     box-shadow: var(--box-shadow);
 }
@@ -721,7 +738,7 @@ footer {
 }
 
 .text-link:hover {
-    color: var(--header-bg-color);
+    color: var(--header-background-color);
     transform: translateX(5px);
 }
 
