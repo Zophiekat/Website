@@ -71,12 +71,7 @@
 }
 
 @media (max-width: 480px) {
-    .shop-item-desc {
+    .shop-item-desc .category {
         display: none;
     }
-}
-
-/* Hide overlay description in mobile view */
-.item-overlay-content .overlay-body .overlay-desc {
-    display: none;
 }
