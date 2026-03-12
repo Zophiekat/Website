@@ -25,6 +25,7 @@
             background: #fff;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
         }
         .shop-item:hover {
             transform: translateY(-5px);
@@ -538,7 +539,12 @@
                                 </div>
                             `;
 
-                            card.querySelector('.details-btn').addEventListener('click', function() {
+                            card.querySelector('.details-btn').addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                openItemOverlay(card);
+                            });
+
+                            card.addEventListener('click', function() {
                                 openItemOverlay(card);
                             });
                             
