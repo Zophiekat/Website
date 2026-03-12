@@ -366,8 +366,8 @@
             position: relative !important;
         }
     </style>
-    <link id="shop-desktop-css" rel="stylesheet" href="../css/shop-desktop.css">
-    <link id="shop-mobile-css" rel="stylesheet" href="../css/shop-mobile.css" disabled>
+    <link id="shop-desktop-css" rel="stylesheet" href="../css/shop-desktop.css" media="(min-width: 769px)">
+    <link id="shop-mobile-css" rel="stylesheet" href="../css/shop-mobile.css" media="(max-width: 768px)">
 </head>
 <body>
     <div id="page-wrapper">
@@ -415,12 +415,12 @@
             function setView(mode) {
                 const isLargeScreen = window.innerWidth > 768;
                 if (mode === 'desktop') {
-                    desktopCSS.disabled = false;
-                    mobileCSS.disabled = true;
+                    desktopCSS.media = 'all';
+                    mobileCSS.media = 'not all';
                     document.body.classList.remove('mobile-sim');
                 } else {
-                    desktopCSS.disabled = true;
-                    mobileCSS.disabled = false;
+                    desktopCSS.media = 'not all';
+                    mobileCSS.media = 'all';
                     if (isLargeScreen) {
                         document.body.classList.add('mobile-sim');
                     } else {
