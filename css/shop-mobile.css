@@ -72,6 +72,7 @@
 
 @media (max-width: 480px) {
     .shop-item-desc .category {
-        display: none;
+        -webkit-line-clamp: 2;
+        font-size: 0.75rem;
     }
 }
