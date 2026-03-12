@@ -560,6 +560,7 @@
             const langToggle = document.getElementById('lang-toggle');
             let currentLang = 'es';
             let englishDescription = '';
+            let spanishDescription = '';
             const translationCache = {};
 
             // Fixed UI translations (English → Spanish)
@@ -638,22 +639,11 @@
             }
 
             async function applyLanguage(lang) {
-                // Translate and render shop description
-                if (englishDescription) {
-                    if (lang === 'en') {
-                        renderDescription(englishDescription);
-                    } else {
-                        const paragraphs = englishDescription.split(/\n\s*\n/);
-                        const translatedParagraphs = [];
-                        for (const p of paragraphs) {
-                            const lines = p.split('\n');
-                            const translatedLines = await Promise.all(
-                                lines.map(line => line.trim() ? dynamicTranslate(line.trim(), 'en', 'es') : '')
-                            );
-                            translatedParagraphs.push(translatedLines.join('\n'));
-                        }
-                        renderDescription(translatedParagraphs.join('\n\n'));
-                    }
+                // Render shop description from the appropriate file
+                if (lang === 'en' && englishDescription) {
+                    renderDescription(englishDescription);
+                } else if (lang === 'es' && spanishDescription) {
+                    renderDescription(spanishDescription);
                 }
 
                 // Translate all item fields
@@ -692,14 +682,15 @@
 
             }
 
-            // Load description from file
-            fetch('../assets/documents/shop-description.txt')
-                .then(r => r.text())
-                .then(text => {
-                    englishDescription = text.trim();
-                    applyLanguage(currentLang);
-                })
-                .catch(() => { descEl.innerHTML = ''; });
+            // Load description files
+            Promise.all([
+                fetch('../assets/documents/shop-description.txt').then(r => r.text()),
+                fetch('../assets/documents/shop-description-es.txt').then(r => r.text())
+            ]).then(([enText, esText]) => {
+                englishDescription = enText.trim();
+                spanishDescription = esText.trim();
+                applyLanguage(currentLang);
+            }).catch(() => { descEl.innerHTML = ''; });
 
             langToggle.addEventListener('click', function(e) {
                 const btn = e.target.closest('button[data-lang]');
