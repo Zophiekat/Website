@@ -483,7 +483,7 @@
                             // If index is missing or name is unknown, it might be an empty/invalid row
                             if (!item['Index'] && !item['Name']) return;
                             
-                            const description = item['Description'] || '';
+                            const description = (item['Description'] || '').replace(/\[\\n\]/g, '\n');
                             const status = item['Status'] || '';
                             const price = item['Price'] || '';
                             const thumbnail = item['Thumbnail'] || '';
@@ -534,7 +534,7 @@
                                     ${price ? `<div class="price">${price}</div>` : ''}
                                 </div>
                                 <div class="shop-item-desc">
-                                    ${description ? `<div class="category" data-en="${description}">${description}</div>` : ''}
+                                    ${description ? `<div class="category" data-en="${description.replace(/\n/g, '[\\n]')}">${description.replace(/\n/g, '<br>')}</div>` : ''}
                                     <button class="website-link details-btn" type="button">Details</button>
                                 </div>
                             `;
@@ -664,11 +664,14 @@
                     }
                     const descItemEl = card.querySelector('.category');
                     if (descItemEl) {
-                        const original = descItemEl.dataset.en;
+                        const original = (descItemEl.dataset.en || '').replace(/\[\\n\]/g, '\n');
                         if (lang === 'es' && original) {
-                            descItemEl.textContent = await dynamicTranslate(original, 'en', 'es');
+                            const translated = await dynamicTranslate(original, 'en', 'es');
+                            descItemEl.innerHTML = translated.replace(/\n/g, '<br>');
+                            card.dataset.description = translated;
                         } else if (original) {
-                            descItemEl.textContent = original;
+                            descItemEl.innerHTML = original.replace(/\n/g, '<br>');
+                            card.dataset.description = original;
                         }
                     }
                     const linkBtn = card.querySelector('.website-link');
@@ -719,7 +722,7 @@
                 const priceEl = card.querySelector('.price');
                 const priceText = priceEl ? priceEl.textContent : '';
                 const descEl = card.querySelector('.category');
-                const descText = descEl ? descEl.textContent : '';
+                const descText = card.dataset.description || '';
                 const link = card.dataset.link || '';
 
                 const overlay = document.createElement('div');
@@ -745,7 +748,7 @@
                             <h2>${name}</h2>
                             ${statusHtml}
                             ${priceText ? `<div class="overlay-price">${priceText}</div>` : ''}
-                            ${descText ? `<div class="overlay-desc">${descText}</div>` : ''}
+                            ${descText ? `<div class="overlay-desc">${descText.replace(/\n/g, '<br>')}</div>` : ''}
                             ${linkHtml}
                         </div>
                     </div>
