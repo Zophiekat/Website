@@ -46,6 +46,19 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+body.page-ready {
+    opacity: 1;
+}
+
+/* Header placeholder - sticky wrapper */
+#header-placeholder {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 /* Header */
@@ -59,9 +72,6 @@ header {
     padding: 20px 0;
     text-align: center;
     box-shadow: var(--box-shadow);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
 }
 
 h1, h2, h3, h4, h5, h6 {

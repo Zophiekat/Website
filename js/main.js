@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const isPagesDir = window.location.pathname.includes('/pages/');
     const basePath = isPagesDir ? '../' : '';
 
-    // Load header
-    fetch(`${basePath}includes/header.html`)
+    // Load header and footer, then reveal the page
+    const headerPromise = fetch(`${basePath}includes/header.html`)
         .then(response => {
             if (!response.ok) throw new Error('Header not found');
             return response.text();
@@ -17,8 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Adjust links in header
                 let processedData = data;
                 if (isPagesDir) {
-                    // Add ../ to hrefs that don't start with http, #, mailto, or /
+                    // Add ../ to hrefs and srcs that don't start with http, #, mailto, or /
                     processedData = data.replace(/href="(?!(http|#|mailto|\/))(.*?)"/g, `href="../$2"`);
+                    processedData = processedData.replace(/src="(?!(http|#|mailto|\/))(.*?)"/g, `src="../$2"`);
                 }
                 headerPlaceholder.innerHTML = processedData;
                 
@@ -29,8 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error loading header:', error));
     
-    // Load footer
-    fetch(`${basePath}includes/footer.html`)
+    const footerPromise = fetch(`${basePath}includes/footer.html`)
         .then(response => {
             if (!response.ok) throw new Error('Footer not found');
             return response.text();
@@ -42,11 +42,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 let processedData = data;
                 if (isPagesDir) {
                      processedData = data.replace(/href="(?!(http|#|mailto|\/))(.*?)"/g, `href="../$2"`);
+                     processedData = processedData.replace(/src="(?!(http|#|mailto|\/))(.*?)"/g, `src="../$2"`);
                 }
                 footerPlaceholder.innerHTML = processedData;
             }
         })
         .catch(error => console.error('Error loading footer:', error));
+
+    // Reveal page once all includes are loaded
+    Promise.all([headerPromise, footerPromise]).then(() => {
+        document.body.classList.add('page-ready');
+    });
     
     // Function to highlight current page in navigation
     function highlightCurrentPage() {
