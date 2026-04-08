@@ -24,8 +24,8 @@
     --container-bg-color: rgb(20, 16, 23);      /* NEW: for sections and content containers */
     --border-radius: 16px;
     --shadow-h-offset: 0;          /* horizontal offset (no shift) */
-    --shadow-v-offset: 16px;       /* vertical offset (down) */
-    --shadow-blur: 32px;           /* blur radius */
+    --shadow-v-offset: 1px;       /* vertical offset (down) */
+    --shadow-blur: 16px;           /* blur radius */
     --shadow-color: rgba(44, 38, 117, 0.5);  /* shadow color with 50% opacity */
     --box-shadow: var(--shadow-h-offset) var(--shadow-v-offset) var(--shadow-blur) var(--shadow-color);
     --transition: all 0.1s ease;
@@ -251,7 +251,6 @@ section {
 }
 
 footer {
-    background: var(--header-background-color);
     color: var(--light-text-color);
     text-align: center;
     padding: 20px 0;

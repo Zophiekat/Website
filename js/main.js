@@ -49,6 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error loading footer:', error));
 
+    // Load socials into header
+    fetch(`${basePath}includes/socials.html`)
+        .then(res => res.text())
+        .then(html => {
+            const socialsPlaceholder = document.getElementById('header-socials-placeholder');
+            if (socialsPlaceholder) socialsPlaceholder.innerHTML = html;
+        });
+
     // Reveal page once all includes are loaded
     Promise.all([headerPromise, footerPromise]).then(() => {
         document.body.classList.add('page-ready');
