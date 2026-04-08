@@ -1,0 +1,31 @@
+.header-socials {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+    transform: translateY(+3px);
+}
+
+.header-socials a {
+    color: #ffffff;
+    font-size: 0rem;
+    padding: 0px 0px;
+    border-radius: 2px;
+    transition: var(--transition);
+    opacity: 0.8;
+}
+
+.header-socials a:hover {
+    opacity: 1;
+}
+
+.header-socials img {
+    width: 32px;
+    height: 32px;
+    filter: brightness(0) invert(1);
+    transition: var(--transition);
+}
+
+.header-socials a:hover img {
+    transform: translateY(-2px);
+}

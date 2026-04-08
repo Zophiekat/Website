@@ -1,0 +1,9 @@
+footer {
+    opacity: 0.8;
+    padding: 4px 0; /* smaller vertical padding */
+}
+
+footer p {
+    font-size: 0.85rem; /* smaller text */
+    margin: 0;
+}

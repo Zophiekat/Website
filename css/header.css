@@ -1,0 +1,33 @@
+:root {
+    --border-style: solid;
+}
+
+header {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    margin: 16px;
+    border: none;
+    border-bottom: 4px solid #0f0720;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    border-radius: 32px 32px 0px 0px;
+    padding: 1px 1.0px 0.0px 1.0px;
+    background: linear-gradient(to bottom, #b783ff, #635090) border-box;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
