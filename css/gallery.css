@@ -1,4 +1,627 @@
+/* ══════════════════════════════════════════════
+   Collection Folder — expand/collapse system
+   ══════════════════════════════════════════════ */
+
+/* Grid of collection folders (home view) */
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3vw;
+    margin-top: 1.5vw;
+    transition: gap 0.4s ease;
+}
+
+/* Each collection folder container */
+.collection-folder {
+    position: relative;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* The clickable card face (shown when collapsed) */
+.collection-card-face {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.collection-card-face:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.collection-card-face img {
+    width: 100%;
+    height: 28vh;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.collection-card-face:hover img {
+    transform: scale(1.05);
+}
+
+.collection-card-label {
+    padding: 0.8vw;
+    background: var(--container-bg-color);
+}
+
+.collection-card-label h3 {
+    margin: 0 0 0.25vw;
+    color: var(--title-text-color);
+}
+
+/* Folder tab — the leaf/tab at the top of an expanded folder */
+.collection-tab {
+    display: none;
+    justify-content: center;
+    margin: 0 auto;
+    width: fit-content;
+    padding: 0.5vw 2.5vw;
+    background: var(--container-bg-color);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.collection-tab:hover {
+    background: var(--nagivation-button-background-color-hover);
+}
+
+.collection-tab-label {
+    font-weight: 600;
+    font-size: 1vw;
+    color: var(--title-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05vw;
+}
+
+/* Expanded content area — below the tab */
+.collection-content {
+    display: none;
+    background: var(--container-bg-color);
+    border-radius: var(--border-radius);
+    padding: 1.5vw;
+    box-shadow: var(--box-shadow);
+    margin-top: -1px; /* seamless with tab */
+    position: relative;
+}
+
+/* Video container (used inside 3D Rigging collection) */
+.collection-content .video-container {
+    max-width: 52vw;
+    margin: 1vw auto;
+    text-align: center;
+}
+
+.collection-content video {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.collection-content .portfolio-description {
+    max-width: 42vw;
+    margin: 1.5vw auto;
+    line-height: 1.6;
+}
+
+/* ── Expanded state ── */
+
+/* When a collection is expanded */
+.collection-folder.expanded {
+    grid-column: 1 / -1; /* span all columns */
+    width: 100%;
+}
+
+.collection-folder.expanded .collection-card-face {
+    display: none;
+}
+
+.collection-folder.expanded .collection-tab {
+    display: flex;
+    animation: tabSlideDown 0.35s ease;
+}
+
+.collection-folder.expanded .collection-content {
+    display: block;
+    animation: contentReveal 0.4s ease;
+}
+
+/* Hide other folders when one is expanded */
+.collections-grid.has-expanded .collection-folder:not(.expanded) {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Hide about section when a collection is expanded */
+.about-preview.hidden {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.about-preview {
+    transition: opacity 0.3s ease, max-height 0.5s ease;
+    max-height: 500vh;
+}
+
+/* ── Animations ── */
+
+@keyframes tabSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-1vw);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes contentReveal {
+    from {
+        opacity: 0;
+        max-height: 0;
+        padding: 0 1.5vw;
+    }
+    to {
+        opacity: 1;
+        max-height: 200vh;
+        padding: 1.5vw;
+    }
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Cards reappearing after collapse */
+.collections-grid:not(.has-expanded) .collection-folder {
+    animation: cardFadeIn 0.35s ease;
+}
+
+/* ══════════════════════════════════════════════ */
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15.6vw, 1fr));
+    gap: 1.3vw;
+    margin-top: 1.5vw;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 23vh;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item p {
+    padding: 0.8vw;
+    background-color: var(--container-bg-color);
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Lightbox styles */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: var(--container-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 0.5vw;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    display: block;
+}
+
+.lightbox-content p {
+    text-align: center;
+    margin-top: 0.5vw;
+    font-style: italic;
+    color: var(--text-color);
+}
+
+.close-lightbox {
+    position: absolute;
+    top: -0.8vw;
+    right: -0.8vw;
+    width: 1.5vw;
+    height: 1.5vw;
+    background-color: var(--button-accent-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1vw;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+}
+
+.close-lightbox:hover {
+    background-color: var(--header-background-color);
+    transform: scale(1.1);
+}
+
+/* Collection Cards */
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13vw, 1fr));
+    gap: 1.5vw;
+    margin-top: 1.5vw;
+}
+
+.collection-card {
+    display: block;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    background-color: var(--container-bg-color);
+    position: relative;
+}
+
+.collection-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.collection-preview {
+    height: 18.5vh;
+    background-color: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.collection-card:hover .collection-preview img {
+    transform: scale(1.1);
+}
+
+.collection-preview i {
+    font-size: 3.3vw;
+    color: var(--button-accent-color);
+    opacity: 0.7;
+}
+
+.collection-info {
+    padding: 1vw;
+    text-align: center;
+}
+
+.collection-info h3 {
+    margin: 0;
+    color: var(--title-text-color);
+    font-size: 1vw;
+}
+
+.collection-info p {
+    margin-top: 0.25vw;
+    font-size: 0.75vw;
+    color: #aaa;
+}
+
+/* Featured Artwork */
 a.featured-item {
     text-decoration: none;
     color: inherit;
+}
+
+.featured {
+    padding: 1.5vw 0;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3vw;
+    margin-top: 1.5vw;
+}
+
+.featured-item {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.featured-item img {
+    width: 100%;
+    height: 28vh;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.featured-item:hover img {
+    transform: scale(1.05);
+}
+
+.featured-preview {
+    height: 28vh;
+    background-color: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.featured-item:hover .featured-preview {
+    background-color: #333;
+}
+
+.featured-info {
+    padding: 0.8vw;
+    background: var(--container-bg-color);
+}
+
+.featured-info h3 {
+    margin: 0 0 0.25vw;
+    color: var(--title-text-color); /* Changed from --header-bg-color */
+}
+
+/* Categories — filter buttons for gallery pages */
+.categories {
+    margin-top: 2vw;
+    text-align: center;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5vw;
+    margin-top: 1vw;
+}
+
+.category-btn {
+    background-color: var(--container-bg-color);
+    color: var(--title-text-color);
+    border: 2px solid var(--title-text-color);
+    padding: 0.4vw 0.85vw;
+    border-radius: 3vmin;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.category-btn:hover {
+    background-color: var(--title-text-color);
+    color: white;
+}
+
+.category-btn.active {
+    background-color: var(--button-accent-color);
+    border-color: var(--button-accent-color);
+    color: white;
+}
+
+/* Breadcrumb — gallery page navigation path */
+.breadcrumb {
+    margin-bottom: 1vw;
+    font-size: 0.75vw;
+    color: #aaa;
+}
+
+.breadcrumb a {
+    color: var(--button-accent-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    color: var(--light-text-color);
+}
+
+/* Responsive - Gallery/Featured/Collection */
+@media (max-width: 768px) {
+    .collections-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Portrait orientation */
+@media (orientation: portrait) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+        gap: 3vw;
+    }
+
+    .gallery-item img {
+        height: 20vh;
+    }
+
+    .gallery-item p {
+        padding: 2vw;
+        font-size: 2.5vw;
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 3vw;
+    }
+
+    .featured-item img,
+    .featured-preview {
+        height: 25vh;
+    }
+
+    .featured-info {
+        padding: 2vw;
+    }
+
+    .featured-info h3 {
+        font-size: 3vw;
+    }
+
+    .collections-grid {
+        grid-template-columns: repeat(auto-fill, minmax(35vw, 1fr));
+        gap: 3vw;
+    }
+
+    .collection-preview {
+        height: 15vh;
+    }
+
+    .collection-preview i {
+        font-size: 8vw;
+    }
+
+    .collection-info {
+        padding: 2.5vw;
+    }
+
+    .collection-info h3 {
+        font-size: 2.5vw;
+    }
+
+    .collection-info p {
+        font-size: 2vw;
+    }
+
+    .lightbox-content {
+        padding: 1.5vw;
+    }
+
+    .close-lightbox {
+        width: 5vw;
+        height: 5vw;
+        top: -2.5vw;
+        right: -2.5vw;
+        font-size: 3vw;
+    }
+
+    .category-btn {
+        padding: 1vw 2.5vw;
+        border-radius: 3vmin;
+        font-size: 2.5vw;
+    }
+
+    .breadcrumb {
+        font-size: 2vw;
+        margin-bottom: 2.5vw;
+    }
+
+    .collections-grid {
+        grid-template-columns: 1fr;
+        gap: 3vw;
+    }
+
+    .collection-card-face img {
+        height: 25vh;
+    }
+
+    .collection-card-label {
+        padding: 2vw;
+    }
+
+    .collection-card-label h3 {
+        font-size: 3vw;
+    }
+
+    .collection-tab {
+        padding: 1.5vw 5vw;
+    }
+
+    .collection-tab-label {
+        font-size: 2.5vw;
+    }
+
+    .collection-content {
+        padding: 3vw;
+    }
+
+    .collection-content .video-container {
+        max-width: 90vw;
+    }
+
+    .collection-content .portfolio-description {
+        max-width: 85vw;
+    }
 }

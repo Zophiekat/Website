@@ -1,4 +1,3 @@
-// Modern Art Portfolio JavaScript - 2023
 
 document.addEventListener('DOMContentLoaded', function() {
     // Determine base path
@@ -26,6 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Initialize navigation features after header is loaded
                 highlightCurrentPage();
                 initMobileMenu();
+
+                // Load socials into header (must happen after header is in DOM)
+                fetch(`${basePath}includes/socials.html`)
+                    .then(res => res.text())
+                    .then(html => {
+                        const socialsPlaceholder = document.getElementById('header-socials-placeholder');
+                        if (socialsPlaceholder) socialsPlaceholder.innerHTML = html;
+                    })
+                    .catch(error => console.error('Error loading socials:', error));
             }
         })
         .catch(error => console.error('Error loading header:', error));
@@ -49,17 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => console.error('Error loading footer:', error));
 
-    // Load socials into header
-    fetch(`${basePath}includes/socials.html`)
-        .then(res => res.text())
-        .then(html => {
-            const socialsPlaceholder = document.getElementById('header-socials-placeholder');
-            if (socialsPlaceholder) socialsPlaceholder.innerHTML = html;
-        });
-
     // Reveal page once all includes are loaded
     Promise.all([headerPromise, footerPromise]).then(() => {
         document.body.classList.add('page-ready');
+
+        // After page is ready, check if we should expand a collection from URL
+        initCollectionRouting();
     });
     
     // Function to highlight current page in navigation
@@ -121,12 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Add active class to clicked button
                 this.classList.add('active');
                 
-                // For demo purposes only - in a real implementation, 
-                // this would filter the gallery items based on categories
-                // Here we'll just add a visual feedback
                 const category = this.textContent.toLowerCase();
                 
-                // Show a message that this is just a demo
                 const message = document.createElement('div');
                 message.textContent = `Filtering by: ${category}`;
                 message.style.textAlign = 'center';
@@ -300,4 +299,158 @@ document.addEventListener('DOMContentLoaded', function() {
         input.parentNode.insertBefore(errorMessage, input.nextSibling);
         input.style.borderColor = 'red';
     }
+
+    // ══════════════════════════════════════════════
+    // Collection Folder — expand/collapse + routing
+    // ══════════════════════════════════════════════
+
+    // Route map: URL path segments → collection data-collection values
+    const collectionRoutes = {
+        '3d-rigging': '3d-rigging',
+        '3d-modelling': '3d-modelling',
+        'tools': 'tools'
+    };
+
+    function initCollectionRouting() {
+        const grid = document.getElementById('collections-grid');
+        if (!grid) return;
+
+        const folders = grid.querySelectorAll('.collection-folder');
+
+        // Click handlers — card face expands, tab collapses
+        folders.forEach(folder => {
+            const cardFace = folder.querySelector('.collection-card-face');
+            const tab = folder.querySelector('.collection-tab');
+
+            if (cardFace) {
+                cardFace.addEventListener('click', function() {
+                    expandCollection(folder);
+                });
+            }
+
+            if (tab) {
+                tab.addEventListener('click', function() {
+                    collapseCollection(folder);
+                });
+            }
+        });
+
+        // Check URL on initial load — expand matching collection
+        const route = getRouteFromURL();
+        if (route && collectionRoutes[route]) {
+            const target = grid.querySelector(`[data-collection="${collectionRoutes[route]}"]`);
+            if (target) {
+                // Expand immediately without animation on initial load
+                expandCollection(target, true);
+            }
+        }
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', function() {
+            const route = getRouteFromURL();
+            const grid = document.getElementById('collections-grid');
+            if (!grid) return;
+
+            const currentExpanded = grid.querySelector('.collection-folder.expanded');
+
+            if (route && collectionRoutes[route]) {
+                const target = grid.querySelector(`[data-collection="${collectionRoutes[route]}"]`);
+                if (target && target !== currentExpanded) {
+                    if (currentExpanded) collapseCollection(currentExpanded, true);
+                    expandCollection(target, true);
+                }
+            } else if (currentExpanded) {
+                collapseCollection(currentExpanded, true);
+            }
+        });
+    }
+
+    function getRouteFromURL() {
+        // Check for redirect from 404.html
+        const redirectRoute = sessionStorage.getItem('spa-redirect-route');
+        if (redirectRoute) {
+            sessionStorage.removeItem('spa-redirect-route');
+            history.replaceState(null, '', '/' + redirectRoute + '/');
+            return redirectRoute;
+        }
+
+        // Parse current path: /3d-rigging/ → 3d-rigging
+        const path = window.location.pathname.replace(/^\/|\/$/g, '');
+        return path || null;
+    }
+
+    function expandCollection(folder, instant) {
+        const grid = document.getElementById('collections-grid');
+        const aboutSection = document.getElementById('about-section');
+        if (!grid) return;
+
+        // Update URL
+        const route = folder.dataset.route;
+        if (route && window.location.pathname !== route) {
+            history.pushState({ collection: folder.dataset.collection }, '', route);
+        }
+
+        // Update page title
+        const label = folder.querySelector('.collection-tab-label');
+        if (label) {
+            document.title = label.textContent + ' — Zophiekat';
+        }
+
+        // Apply expanded state
+        if (instant) {
+            // Skip animations for initial load / popstate
+            folder.style.animation = 'none';
+            folder.classList.add('expanded');
+            grid.classList.add('has-expanded');
+            if (aboutSection) aboutSection.classList.add('hidden');
+            // Re-enable animations after a frame
+            requestAnimationFrame(() => {
+                folder.style.animation = '';
+            });
+        } else {
+            grid.classList.add('has-expanded');
+            folder.classList.add('expanded');
+            if (aboutSection) aboutSection.classList.add('hidden');
+            // Scroll to top of the collection
+            folder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Re-bind lightbox for gallery images inside this collection
+        const galleryGrid = folder.querySelector('.gallery-grid');
+        if (galleryGrid && !galleryGrid.dataset.lightboxBound) {
+            galleryGrid.addEventListener('click', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    openLightbox(e.target);
+                }
+            });
+            galleryGrid.dataset.lightboxBound = 'true';
+        }
+    }
+
+    function collapseCollection(folder, instant) {
+        const grid = document.getElementById('collections-grid');
+        const aboutSection = document.getElementById('about-section');
+        if (!grid) return;
+
+        // Update URL back to home
+        if (window.location.pathname !== '/') {
+            history.pushState(null, '', '/');
+        }
+
+        // Reset page title
+        document.title = 'Zophiekat';
+
+        // Remove expanded state
+        folder.classList.remove('expanded');
+        grid.classList.remove('has-expanded');
+        if (aboutSection) aboutSection.classList.remove('hidden');
+
+        if (!instant) {
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    // ══════════════════════════════════════════════
+
 });

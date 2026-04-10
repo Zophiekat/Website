@@ -6,6 +6,7 @@
     <title>Zophiekat</title>
     <link rel="icon" type="image/webp" href="/assets/pfp.webp">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/header_buttons.css">
     <link rel="stylesheet" href="css/gallery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -15,40 +16,144 @@
     <div id="header-placeholder"></div>
     <main>
 
-        <div class="container">  
-                <div class="featured-grid">
-                    <!-- 3D Rigging Feature -->
-                    <div class="featured-item">
-                        <a href="/3d-rigging.html" class="featured-item">
-                            <img src="assets/thumbnails/thumbnail_3d_rigging.webp" alt="3D Rigging">
-                            <div class="featured-info">
-                                <h3>3D Rigging</h3>
-                            </div>
-                        </a>
-                    </div>
+        <div class="container">
+            <div class="collections-grid" id="collections-grid">
 
-                    <!-- 3D Modelling Feature -->
-                    <div class="featured-item">
-                        <a href="/3d-modelling.html" class="featured-item">
-                            <img src="assets/artwork/3d-modelling/Azazel.webp" alt="3D Modelling">
-                            <div class="featured-info">
-                                <h3>3D Modelling</h3>
-                            </div>
-                        </a>
+                <!-- 3D Rigging Collection -->
+                <div class="collection-folder" data-collection="3d-rigging" data-route="/3d-rigging/">
+                    <div class="collection-card-face">
+                        <img src="assets/thumbnails/thumbnail_3d_rigging.webp" alt="3D Rigging">
+                        <div class="collection-card-label">
+                            <h3>3D Rigging</h3>
+                        </div>
                     </div>
-
-                    <!-- Tools Feature -->
-                    <div class="featured-item">
-                        <a href="/tools.html" class="featured-item">
-                            <img src="assets/thumbnails/thumbnail_scripting_render.webp" alt="Tools and Scripting">
-                            <div class="featured-info">
-                                <h3>Tools and Scripting</h3>
+                    <div class="collection-tab">
+                        <span class="collection-tab-label">3D Rigging</span>
+                    </div>
+                    <div class="collection-content">
+                        <div class="video-container">
+                            <h2>3D Rigging Showreel 2025</h2>
+                            <video controls>
+                                <source src="assets/portfolio/Sophia Martinez - Rigging Showreel 2025.webm" type="video/webm">
+                                <source src="assets/portfolio/Sophia Martinez - Rigging Showreel 2025.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="portfolio-description">
+                                <p></p>
+                                <a href="assets/documents/Sophia Martinez - Resume 2025.pdf" class="btn-primary" target="_blank"><i class="fas fa-file-pdf"></i> Download Resume</a>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
 
-            <section class="about-preview">
+                <!-- 3D Modelling Collection -->
+                <div class="collection-folder" data-collection="3d-modelling" data-route="/3d-modelling/">
+                    <div class="collection-card-face">
+                        <img src="assets/artwork/3d-modelling/Azazel.webp" alt="3D Modelling">
+                        <div class="collection-card-label">
+                            <h3>3D Modelling</h3>
+                        </div>
+                    </div>
+                    <div class="collection-tab">
+                        <span class="collection-tab-label">3D Modelling</span>
+                    </div>
+                    <div class="collection-content">
+                        <div class="gallery-grid">
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/Azazel.webp" alt="Azazel">
+                                <p>Azazel</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/Bombon render alt.webp" alt="Bombon">
+                                <p>Bombon</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/Pulparindo Knight.webp" alt="Pulparindo Knight">
+                                <p>Pulparindo Knight</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/Pulparindo.webp" alt="Pulparindo">
+                                <p>Pulparindo</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/Puudle.webp" alt="Puudle">
+                                <p>Puudle</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/crash-bandicoot.webp" alt="Crash Bandicoot">
+                                <p>Crash Bandicoot</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/king render.webp" alt="King">
+                                <p>King</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/mazapan render.webp" alt="Mazapan">
+                                <p>Mazapan</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/miss minutes.webp" alt="Miss Minutes">
+                                <p>Miss Minutes</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/penny pasta solid.webp" alt="Penny Pasta Solid">
+                                <p>Penny Pasta Solid</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/penny pasta wireframe.webp" alt="Penny Pasta Wireframe">
+                                <p>Penny Pasta Wireframe</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/penny pasta.webp" alt="Penny Pasta">
+                                <p>Penny Pasta</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/pirulin render.webp" alt="Pirulin">
+                                <p>Pirulin</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/postworkout pat.webp" alt="Postworkout Pat">
+                                <p>Postworkout Pat</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/princess render.webp" alt="Princess">
+                                <p>Princess</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/slime girl.webp" alt="Slime Girl">
+                                <p>Slime Girl</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/turnign red.webp" alt="Turning Red">
+                                <p>Turning Red</p>
+                            </div>
+                            <div class="gallery-item">
+                                <img src="assets/artwork/3d-modelling/zakuro.webp" alt="Zakuro">
+                                <p>Zakuro</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools and Scripting Collection -->
+                <div class="collection-folder" data-collection="tools" data-route="/tools/">
+                    <div class="collection-card-face">
+                        <img src="assets/thumbnails/thumbnail_scripting_render.webp" alt="Tools and Scripting">
+                        <div class="collection-card-label">
+                            <h3>Tools and Scripting</h3>
+                        </div>
+                    </div>
+                    <div class="collection-tab">
+                        <span class="collection-tab-label">Tools and Scripting</span>
+                    </div>
+                    <div class="collection-content">
+                        <p>Content coming soon!</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <section class="about-preview" id="about-section">
                 <div class="about-content">
                     <h2>I'm a Rigging and Tech Artist!</h2>
                     <p>I also happen to be a 3D Generalist, I do all things 3D art and enjoy working with people on art projects with varying types of art styles and mediums.</p>

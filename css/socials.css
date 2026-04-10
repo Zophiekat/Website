@@ -1,8 +1,8 @@
 .header-socials {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-left: 16px;
+    gap: 0.4vw;
+    margin-left: 2vw;
     transform: translateY(+3px);
 }
 
@@ -10,7 +10,7 @@
     color: #ffffff;
     font-size: 0rem;
     padding: 0px 0px;
-    border-radius: 2px;
+    border-radius: 0px;
     transition: var(--transition);
     opacity: 0.8;
 }
@@ -20,12 +20,25 @@
 }
 
 .header-socials img {
-    width: 32px;
-    height: 32px;
+    width: 4vw;
+    height: 6vh;
     filter: brightness(0) invert(1);
     transition: var(--transition);
 }
 
 .header-socials a:hover img {
     transform: translateY(-2px);
+}
+
+/* Portrait orientation — scale up social icons */
+@media (orientation: portrait) {
+    .header-socials {
+        gap: 1.5vw;
+        margin-left: 3vw;
+    }
+
+    .header-socials img {
+        width: 6vw;
+        height: 6vw;
+    }
 }

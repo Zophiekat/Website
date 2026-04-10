@@ -7,20 +7,22 @@
     <link rel="icon" type="image/webp" href="/assets/pfp.webp">
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/header_buttons.css">
+    <link rel="stylesheet" href="../css/gallery.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         /* Shop grid base */
         .shop-grid {
             display: grid;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 1vw;
+            margin-top: 1.5vw;
         }
 
         /* Shop item base */
         .shop-item {
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 1.5vmin;
             overflow: hidden;
             display: flex;
             background: #fff;
@@ -60,7 +62,7 @@
             object-fit: contain;
         }
         .shop-item-content {
-            padding: 15px;
+            padding: 0.8vw;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -97,8 +99,8 @@
         }
         .shop-item .status {
             display: inline-block;
-            padding: 3px 6px;
-            border-radius: 4px;
+            padding: 0.15vw 0.3vw;
+            border-radius: 0.8vmin;
             font-weight: 600;
             align-self: flex-start;
         }
@@ -115,12 +117,12 @@
             display: inline-block;
             margin-top: auto;
             text-align: center;
-            padding: 6px;
+            padding: 0.3vw;
             background-color: #222;
             color: #fff;
             text-decoration: none;
             border: none;
-            border-radius: 4px;
+            border-radius: 0.8vmin;
             transition: background 0.3s;
             font-weight: 600;
             cursor: pointer;
@@ -142,12 +144,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 1vw;
         }
         .item-overlay-content {
             background: #fff;
-            border-radius: 12px;
-            max-width: 500px;
+            border-radius: 1.5vmin;
+            max-width: 26vw;
             width: 100%;
             max-height: 80vh;
             overflow-y: auto;
@@ -156,48 +158,48 @@
         }
         .item-overlay-content .overlay-img {
             width: 100%;
-            max-height: 300px;
+            max-height: 28vh;
             object-fit: contain;
             background: #f5f5f5;
-            border-radius: 12px 12px 0 0;
+            border-radius: 1.5vmin 1.5vmin 0 0;
             display: block;
         }
         .item-overlay-content .overlay-body {
-            padding: 20px;
+            padding: 1vw;
         }
         .item-overlay-content .overlay-body h2 {
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.3rem;
+            margin-bottom: 0.5vw;
+            font-size: 1.1vw;
             color: #222;
             border: none;
         }
         .item-overlay-content .overlay-body .overlay-status {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            padding: 0.2vw 0.4vw;
+            border-radius: 0.8vmin;
+            font-size: 0.65vw;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 0.5vw;
         }
         .item-overlay-content .overlay-body .overlay-price {
-            font-size: 1.1rem;
+            font-size: 0.9vw;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 0.5vw;
         }
         .item-overlay-content .overlay-body .overlay-desc {
-            font-size: 0.95rem;
+            font-size: 0.75vw;
             color: #444;
             line-height: 1.5;
-            margin-bottom: 15px;
+            margin-bottom: 0.8vw;
         }
         .item-overlay-content .overlay-body .overlay-link {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 0.5vw 1vw;
             background: #222;
             color: #fff;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 0.8vmin;
             font-weight: 600;
             transition: background 0.3s;
         }
@@ -206,16 +208,16 @@
         }
         .item-overlay-close {
             position: absolute;
-            top: 10px;
-            right: 14px;
-            font-size: 1.5rem;
+            top: 0.5vw;
+            right: 0.7vw;
+            font-size: 1.25vw;
             color: #666;
             cursor: pointer;
             background: rgba(255,255,255,0.8);
             border: none;
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            width: 1.7vw;
+            height: 1.7vw;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -229,8 +231,8 @@
         .shop-filters {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 0.5vw;
+            margin-top: 0.8vw;
             flex-wrap: wrap;
         }
         .filter-dropdown {
@@ -240,13 +242,13 @@
         .filter-dropdown-btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
+            gap: 0.3vw;
+            padding: 0.3vw 0.7vw;
             border: 1px solid #555;
-            border-radius: 6px;
+            border-radius: 1vmin;
             background: #333;
             color: #ddd;
-            font-size: 0.85rem;
+            font-size: 0.7vw;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
@@ -260,13 +262,13 @@
             position: absolute;
             top: 100%;
             left: 0;
-            margin-top: 4px;
+            margin-top: 0.2vw;
             background: #333;
             border: 1px solid #555;
-            border-radius: 6px;
-            padding: 8px 12px;
+            border-radius: 1vmin;
+            padding: 0.4vw 0.6vw;
             z-index: 100;
-            min-width: 160px;
+            min-width: 8.3vw;
         }
         .filter-dropdown-menu.open {
             display: block;
@@ -274,10 +276,10 @@
         .filter-dropdown-menu label {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 4px 0;
+            gap: 0.4vw;
+            padding: 0.2vw 0;
             color: #ddd;
-            font-size: 0.85rem;
+            font-size: 0.7vw;
             cursor: pointer;
             white-space: nowrap;
         }
@@ -290,26 +292,26 @@
 
         #loading {
             text-align: center;
-            padding: 50px;
-            font-size: 1.2rem;
+            padding: 2.6vw;
+            font-size: 1vw;
             color: #666;
         }
 
         /* Language toggle */
         .lang-toggle {
             display: inline-flex;
-            border-radius: 6px;
+            border-radius: 1vmin;
             overflow: hidden;
             border: 1px solid #555;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 0.5vw;
+            margin-bottom: 0.5vw;
         }
         .lang-toggle button {
-            padding: 6px 16px;
+            padding: 0.3vw 0.85vw;
             border: none;
             background: #333;
             color: #aaa;
-            font-size: 0.85rem;
+            font-size: 0.7vw;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
@@ -329,21 +331,21 @@
         /* View toggle button */
         .view-toggle {
             position: fixed;
-            top: 10px;
-            right: 20px;
+            top: 0.5vw;
+            right: 1vw;
             z-index: 1001;
             display: none;
         }
         .view-toggle button {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
+            gap: 0.3vw;
+            padding: 0.3vw 0.7vw;
             border: 1px solid #555;
-            border-radius: 6px;
+            border-radius: 1vmin;
             background: #333;
             color: #ddd;
-            font-size: 0.85rem;
+            font-size: 0.7vw;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
@@ -355,17 +357,104 @@
 
         /* Mobile simulation frame (only on large screens) */
         .mobile-sim #page-wrapper {
-            max-width: 393px !important;
-            margin: 20px auto !important;
+            max-width: 20.5vw !important;
+            margin: 1vw auto !important;
             border: 2px solid #555;
-            border-radius: 24px;
+            border-radius: 2.5vmin;
             overflow: hidden;
-            max-height: 852px;
+            max-height: 79vh;
             overflow-y: auto;
             background: var(--body-bg-color);
         }
         .mobile-sim #header-placeholder {
             position: relative !important;
+        }
+
+        /* Portrait orientation */
+        @media (orientation: portrait) {
+            .shop-grid {
+                gap: 2.5vw;
+            }
+
+            .item-overlay-content {
+                max-width: 80vw;
+                border-radius: 1.5vmin;
+            }
+
+            .item-overlay-content .overlay-img {
+                border-radius: 1.5vmin 1.5vmin 0 0;
+                max-height: 25vh;
+            }
+
+            .item-overlay-content .overlay-body {
+                padding: 3vw;
+            }
+
+            .item-overlay-content .overlay-body h2 {
+                font-size: 3.5vw;
+                margin-bottom: 1.5vw;
+            }
+
+            .item-overlay-content .overlay-body .overlay-status {
+                font-size: 2vw;
+                padding: 0.5vw 1.5vw;
+            }
+
+            .item-overlay-content .overlay-body .overlay-price {
+                font-size: 2.8vw;
+            }
+
+            .item-overlay-content .overlay-body .overlay-desc {
+                font-size: 2.2vw;
+            }
+
+            .item-overlay-content .overlay-body .overlay-link {
+                padding: 1.5vw 3vw;
+                font-size: 2.5vw;
+            }
+
+            .item-overlay-close {
+                width: 5vw;
+                height: 5vw;
+                font-size: 3vw;
+                top: 1.5vw;
+                right: 2vw;
+            }
+
+            .filter-dropdown-btn,
+            .view-toggle button {
+                font-size: 2.5vw;
+                padding: 1vw 2.5vw;
+                gap: 1vw;
+                border-radius: 1vmin;
+            }
+
+            .filter-dropdown-menu {
+                min-width: 30vw;
+                padding: 1.5vw 2vw;
+                border-radius: 1vmin;
+            }
+
+            .filter-dropdown-menu label {
+                font-size: 2.5vw;
+                gap: 1.5vw;
+                padding: 0.8vw 0;
+            }
+
+            .lang-toggle button {
+                font-size: 2.5vw;
+                padding: 1vw 3vw;
+            }
+
+            #loading {
+                font-size: 3vw;
+                padding: 6vw;
+            }
+
+            .shop-item .status {
+                padding: 0.5vw 1.2vw;
+                font-size: 2vw;
+            }
         }
     </style>
     <link id="shop-desktop-css" rel="stylesheet" href="../css/shop-desktop.css" media="(min-width: 769px)">
@@ -378,7 +467,7 @@
     
     <main>
         <div class="container">
-            <section class="shop-section" style="margin-bottom: 60px;">
+            <section class="shop-section" style="margin-bottom: 3vw;">
                 <h1>Sophia Shop</h1>
                 <div class="lang-toggle" id="lang-toggle">
                     <button data-lang="es" class="active">Español</button>
@@ -632,7 +721,7 @@
                 const expandLabel = currentLang === 'es' ? 'Ver descripción completa...' : 'View full description...';
                 const collapseLabel = currentLang === 'es' ? 'Ocultar descripción' : 'Hide description';
                 descEl.innerHTML = firstParagraph
-                    + '<button id="desc-toggle" style="background:none;border:none;color:#845ce9;cursor:pointer;font-size:0.95rem;font-weight:600;padding:0;margin-bottom:1em;" data-expand="' + expandLabel + '" data-collapse="' + collapseLabel + '">' + expandLabel + '</button>'
+                    + '<button id="desc-toggle" style="background:none;border:none;color:#845ce9;cursor:pointer;font-size:0.75vw;font-weight:600;padding:0;margin-bottom:1em;" data-expand="' + expandLabel + '" data-collapse="' + collapseLabel + '">' + expandLabel + '</button>'
                     + '<div id="desc-rest" style="display:none;">' + restParagraphs + '</div>';
                 document.getElementById('desc-toggle').addEventListener('click', function() {
                     const rest = document.getElementById('desc-rest');

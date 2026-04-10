@@ -1,9 +1,16 @@
 footer {
     opacity: 0.8;
-    padding: 4px 0; /* smaller vertical padding */
+    padding: 0.4vh 0; /* smaller vertical padding */
 }
 
 footer p {
-    font-size: 0.85rem; /* smaller text */
+    font-size: 0.7vw; /* smaller text */
     margin: 0;
+}
+
+/* Portrait orientation */
+@media (orientation: portrait) {
+    footer p {
+        font-size: 2vw;
+    }
 }
