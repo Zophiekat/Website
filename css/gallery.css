@@ -1,4 +1,893 @@
+/* ══════════════════════════════════════════════
+   Gallery Variables
+   ══════════════════════════════════════════════ */
+
+:root {
+    --gallery-border-radius: 1.5vmin;
+}
+
+/* ══════════════════════════════════════════════
+   Collection Folder — expand/collapse system
+   ══════════════════════════════════════════════ */
+
+/* Outer wrapper — matches header side margins */
+.gallery-container {
+    margin: 0 12vh;
+    padding: 0vw 0;
+}
+
+/* Grid of collection folders (home view) */
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3vw;
+    margin-top: 0vw;
+    transition: gap 0.4s ease;
+}
+
+/* Each collection folder container */
+.collection-folder {
+    position: relative;
+}
+
+/* The clickable card face (shown when collapsed) */
+.collection-card-face {
+    position: relative;
+    border-radius: var(--gallery-border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.collection-card-face:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.collection-card-face > img {
+    width: 100%;
+    height: 32vh;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.collection-card-face:hover > img {
+    transform: scale(1.05);
+}
+
+.collection-card-label {
+    padding: 0.8vw;
+    background: var(--container-bg-color);
+}
+
+.collection-card-label h3 {
+    margin: 0 0 0.25vw;
+    color: var(--title-text-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+}
+
+.collection-card-icon {
+    width: 1.4em;
+    height: 1.4em;
+    flex-shrink: 0;
+}
+
+/* Folder tab — the leaf/tab at the top of an expanded folder */
+.collection-tab {
+    display: none;
+    align-items: center;
+    gap: 0.4vw;
+    justify-content: center;
+    margin: 0 auto;
+    width: fit-content;
+    padding: 0.5vw 2.5vw;
+    background: var(--container-bg-color);
+    border-radius: var(--gallery-border-radius) var(--gallery-border-radius) 0 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.collection-tab:hover {
+    background: var(--nagivation-button-background-color-hover);
+}
+
+.collection-tab-icon {
+    width: 1.2em;
+    height: 1.2em;
+    flex-shrink: 0;
+}
+
+.collection-tab-label {
+    font-weight: 600;
+    font-size: 1vw;
+    color: var(--title-text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.05vw;
+}
+
+/* Expanded content area — below the tab */
+.collection-content {
+    display: none;
+    background: var(--container-bg-color);
+    border-radius: var(--gallery-border-radius);
+    padding: 1.5vw;
+    box-shadow: var(--box-shadow);
+    margin-top: -1px; /* seamless with tab */
+    position: relative;
+}
+
+/* Video container (used inside 3D Rigging collection) */
+.collection-content .video-container {
+    max-width: 52vw;
+    margin: 1vw auto;
+    text-align: center;
+}
+
+.collection-content video {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--gallery-border-radius);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.collection-content .portfolio-description {
+    max-width: 42vw;
+    margin: 1.5vw auto;
+    line-height: 1.6;
+}
+
+/* ── Expanded state ── */
+
+/* When a collection is expanded */
+.collection-folder.expanded {
+    grid-column: 1 / -1; /* span all columns */
+    width: 100%;
+}
+
+.collection-folder.expanded .collection-card-face {
+    display: none;
+}
+
+.collection-folder.expanded .collection-tab {
+    display: flex;
+}
+
+/* Tab row — all tabs shown in fixed order, centered as a group */
+.collection-tab-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.5vw;
+    width: 100%;
+}
+
+.collection-tab-row .collection-tab {
+    margin: 0;
+}
+
+.collection-sibling-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.4vw;
+    padding: 0.5vw 2.5vw;
+    background: var(--nagivation-button-background-color);
+    border-radius: var(--gallery-border-radius) var(--gallery-border-radius) 0 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    opacity: 0.7;
+    position: relative;
+    z-index: 2;
+}
+
+.collection-sibling-tab:hover {
+    background: var(--nagivation-button-background-color-hover);
+    opacity: 1;
+}
+
+.collection-folder.expanded .collection-content {
+    display: block;
+}
+
+/* Hide other folders when one is expanded */
+.collections-grid.has-expanded .collection-folder:not(.expanded) {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Hide about section when a collection is expanded */
+.about-preview.hidden {
+    display: none;
+}
+
+
+
+/* ══════════════════════════════════════════════ */
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15.6vw, 1fr));
+    gap: 1.3vw;
+    margin-top: 1.5vw;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--gallery-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 23vh;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item p {
+    padding: 0.8vw;
+    background-color: var(--container-bg-color);
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Artwork detail — lightbox overlay */
+.artwork-detail {
+    position: fixed;
+    inset: 0;
+    z-index: 999; /* below sticky header at z-index 1000 */
+    background: rgba(0, 0, 0, 0.75);
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem 1.5rem 2rem;
+}
+
+/* Artwork detail as a standalone page (not overlay) */
+.artwork-detail--page {
+    position: static;
+    inset: auto;
+    z-index: auto;
+    overflow-y: visible;
+    display: block;
+    padding: 0;
+    background: transparent;
+}
+
+.artwork-detail--page .artwork-detail__inner {
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.artwork-detail__inner {
+    position: relative;
+    background: rgba(var(--container-bg-color-rgb), 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    max-width: 1000px;
+    width: 100%;
+    padding: 2.5rem;
+}
+
+.artwork-detail__back {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: opacity 0.2s;
+}
+
+.artwork-detail__back img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.artwork-detail__back:hover {
+    opacity: 1;
+}
+
+.artwork-detail__content {
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+}
+
+.artwork-detail__image {
+    width: 55%;
+    border-radius: var(--gallery-border-radius);
+    display: block;
+    flex-shrink: 0;
+}
+
+.artwork-detail__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.artwork-detail__title {
+    font-size: 1.8rem;
+    color: var(--title-text-color);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.artwork-detail__date {
+    font-size: 0.875rem;
+    color: #888;
+}
+
+.artwork-detail__description {
+    color: var(--light-text-color);
+    line-height: 1.65;
+    margin: 0;
+}
+
+.artwork-detail__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.artwork-detail__tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #aaa;
+}
+
+.artwork-detail__download {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    background: var(--button-accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--gallery-border-radius);
+    font-weight: 600;
+    width: fit-content;
+    transition: opacity 0.2s;
+}
+
+.artwork-detail__download:hover {
+    opacity: 0.85;
+}
+
+.artwork-detail__software {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.artwork-detail__section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    margin: 0;
+}
+
+.artwork-detail__software-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.software-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.software-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.software-btn__icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+}
+
+.software-btn__label {
+    font-size: 0.7rem;
+    color: #aaa;
+}
+
+/* Collection Cards */
+.collection-card {
+    display: block;
+    text-decoration: none;
+    border-radius: var(--gallery-border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    background-color: var(--container-bg-color);
+    position: relative;
+}
+
+.collection-card:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.collection-preview {
+    height: 18.5vh;
+    background-color: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.collection-card:hover .collection-preview img {
+    transform: scale(1.1);
+}
+
+.collection-preview i {
+    font-size: 3.3vw;
+    color: var(--button-accent-color);
+    opacity: 0.7;
+}
+
+.collection-info {
+    padding: 1vw;
+    text-align: center;
+}
+
+.collection-info h3 {
+    margin: 0;
+    color: var(--title-text-color);
+    font-size: 1vw;
+}
+
+.collection-info p {
+    margin-top: 0.25vw;
+    font-size: 0.75vw;
+    color: #aaa;
+}
+
+/* ── Blender Extensions card grid ── */
+.ext-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 1.5vw;
+}
+
+.ext-card {
+    background: hsl(213, 10%, 21%);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 1px solid hsla(213, 10%, 80%, 0.15);
+}
+
+.ext-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px hsla(204, 100%, 50%, 0.2);
+    border-color: hsla(204, 100%, 50%, 0.45);
+}
+
+.ext-card__thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+}
+
+.ext-card__body {
+    padding: 0.83rem 0.95rem 0.95rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.34rem;
+}
+
+.ext-card__type {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: hsl(213, 10%, 58%);
+}
+
+.ext-card__title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: hsl(213, 10%, 98%);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.ext-card__desc {
+    font-size: 1.125rem;
+    color: hsl(213, 10%, 80%);
+    line-height: 1.45;
+    margin: 0;
+    flex: 1;
+}
+
+.ext-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+}
+
+.ext-card__tag {
+    font-size: 0.75rem;
+    font-weight: 400;
+    padding: calc(.35em - 1px) 0.5em;
+    border-radius: 0.4rem;
+    border: 1px solid hsl(213, 10%, 48%);
+    background-color: transparent;
+    color: hsl(213, 10%, 58%);
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.ext-card__author {
+    font-size: 0.875rem;
+    color: hsl(213, 10%, 58%);
+    margin-top: 0.4rem;
+}
+
+.ext-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+}
+
+.ext-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    color: hsl(213, 10%, 58%);
+}
+
+/* Star bar — mimics Blender Extensions .stars */
+.ext-stars {
+    display: inline-block;
+    position: relative;
+    font-size: 0.875rem;
+    padding: 0.19rem 0.49rem;
+    line-height: 1;
+    color: transparent;
+    letter-spacing: 1px;
+}
+.ext-stars::before {
+    content: '★★★★★';
+    color: hsl(213, 10%, 35%);
+}
+.ext-stars__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: hsl(42, 86%, 48%);
+}
+.ext-stars__fill::before {
+    content: '★★★★★';
+}
+
+.ext-card__downloads {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    color: hsl(213, 10%, 58%);
+}
+
+/* Featured Artwork */
 a.featured-item {
     text-decoration: none;
     color: inherit;
+}
+
+.featured {
+    padding: 1.5vw 0;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.3vw;
+    margin-top: 1.5vw;
+}
+
+.featured-item {
+    position: relative;
+    border-radius: var(--gallery-border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.featured-item img {
+    width: 100%;
+    height: 28vh;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition);
+}
+
+.featured-item:hover img {
+    transform: scale(1.05);
+}
+
+.featured-preview {
+    height: 28vh;
+    background-color: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.featured-item:hover .featured-preview {
+    background-color: #333;
+}
+
+.featured-info {
+    padding: 0.8vw;
+    background: var(--container-bg-color);
+}
+
+.featured-info h3 {
+    margin: 0 0 0.25vw;
+    color: var(--title-text-color); /* Changed from --header-bg-color */
+}
+
+/* Categories — filter buttons for gallery pages */
+.categories {
+    margin-top: 2vw;
+    text-align: center;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5vw;
+    margin-top: 1vw;
+}
+
+.category-btn {
+    background-color: var(--container-bg-color);
+    color: var(--title-text-color);
+    border: 2px solid var(--title-text-color);
+    padding: 0.4vw 0.85vw;
+    border-radius: 3vmin;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.category-btn:hover {
+    background-color: var(--title-text-color);
+    color: white;
+}
+
+.category-btn.active {
+    background-color: var(--button-accent-color);
+    border-color: var(--button-accent-color);
+    color: white;
+}
+
+/* Breadcrumb — gallery page navigation path */
+.breadcrumb {
+    margin-bottom: 1vw;
+    font-size: 0.75vw;
+    color: #aaa;
+}
+
+.breadcrumb a {
+    color: var(--button-accent-color);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    color: var(--light-text-color);
+}
+
+/* Responsive - Gallery/Featured/Collection */
+@media (max-width: 768px) {
+    .collections-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Portrait orientation */
+@media (orientation: portrait) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+        gap: 3vw;
+    }
+
+    .gallery-item img {
+        height: 20vh;
+    }
+
+    .gallery-item p {
+        padding: 2vw;
+        font-size: 2.5vw;
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 3vw;
+    }
+
+    .featured-item img,
+    .featured-preview {
+        height: 25vh;
+    }
+
+    .featured-info {
+        padding: 2vw;
+    }
+
+    .featured-info h3 {
+        font-size: 3vw;
+    }
+
+    .collections-grid {
+        grid-template-columns: repeat(auto-fill, minmax(35vw, 1fr));
+        gap: 3vw;
+    }
+
+    .collection-preview {
+        height: 15vh;
+    }
+
+    .collection-preview i {
+        font-size: 8vw;
+    }
+
+    .collection-info {
+        padding: 2.5vw;
+    }
+
+    .collection-info h3 {
+        font-size: 2.5vw;
+    }
+
+    .collection-info p {
+        font-size: 2vw;
+    }
+
+    .artwork-detail__inner {
+        padding: 1.5rem;
+    }
+
+    .artwork-detail__content {
+        flex-direction: column;
+    }
+
+    .artwork-detail__image {
+        width: 100%;
+    }
+
+    .category-btn {
+        padding: 1vw 2.5vw;
+        border-radius: 3vmin;
+        font-size: 2.5vw;
+    }
+
+    .breadcrumb {
+        font-size: 2vw;
+        margin-bottom: 2.5vw;
+    }
+
+    .collections-grid {
+        grid-template-columns: 1fr;
+        gap: 3vw;
+    }
+
+    .collection-card-face > img {
+    }
+
+    .collection-card-label {
+        padding: 2vw;
+    }
+
+    .collection-card-label h3 {
+        font-size: 3vw;
+    }
+
+    .collection-tab {
+        padding: 1.5vw 5vw;
+    }
+
+    .collection-tab-label {
+        font-size: 2.5vw;
+    }
+
+    .collection-content {
+        padding: 3vw;
+    }
+
+    .collection-content .video-container {
+        max-width: 90vw;
+    }
+
+    .collection-content .portfolio-description {
+        max-width: 85vw;
+    }
 }

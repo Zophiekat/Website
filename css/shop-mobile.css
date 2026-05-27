@@ -6,17 +6,17 @@
 .shop-item {
     flex-direction: row;
     height: auto;
-    min-height: 80px;
+    min-height: 15vw;
     align-items: center;
 }
 
 .shop-item-img-container {
-    width: 80px;
-    min-width: 80px;
-    max-width: 80px;
-    height: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    width: 15vw;
+    min-width: 15vw;
+    max-width: 15vw;
+    height: 15vw;
+    min-height: 15vw;
+    max-height: 15vw;
     flex-shrink: 0;
 }
 
@@ -29,35 +29,35 @@
 
 .shop-item-info {
     flex: 1;
-    padding: 8px;
+    padding: 1.5vw;
     min-width: 0;
 }
 
 .shop-item-info h3 {
-    font-size: 0.85rem;
+    font-size: 2.5vw;
     height: auto;
     -webkit-line-clamp: 2;
-    margin-bottom: 4px;
+    margin-bottom: 1vw;
 }
 
 .shop-item-info .price {
-    font-size: 0.85rem;
-    margin-bottom: 4px;
+    font-size: 2.5vw;
+    margin-bottom: 1vw;
 }
 
 .shop-item-info .status {
-    margin-bottom: 4px;
-    font-size: 0.7rem;
+    margin-bottom: 1vw;
+    font-size: 2vw;
 }
 
 .shop-item-desc {
     flex: 1;
-    padding: 8px;
+    padding: 1.5vw;
     min-width: 0;
 }
 
 .shop-item-desc .category {
-    font-size: 0.8rem;
+    font-size: 2.3vw;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -65,14 +65,14 @@
 }
 
 .shop-item-desc .details-btn {
-    font-size: 0.75rem;
-    padding: 6px 8px;
-    margin-top: 6px;
+    font-size: 2.2vw;
+    padding: 1.2vw 1.5vw;
+    margin-top: 1.2vw;
 }
 
 @media (max-width: 480px) {
     .shop-item-desc .category {
         -webkit-line-clamp: 2;
-        font-size: 0.75rem;
+        font-size: 2vw;
     }
 }

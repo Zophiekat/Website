@@ -1,0 +1,175 @@
+/* Navigation bar — flex container for logo, menu toggle, and page links */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2vh;
+}
+
+/* Logo — profile picture and site name, clickable link to home */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 2.0vh;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Logo profile picture */
+.logo img {
+    height: 100%;
+    width: auto;
+    border-radius: 3vmin;
+    object-fit: contain;
+    max-height: 10vh;
+}
+
+/* Logo site name */
+.logo h1 {
+    margin: 0;
+    font-size: 3vw;
+}
+
+/* Hamburger menu toggle — three horizontal bars, hidden on desktop */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 1.5vw;
+    height: 1.1vw;
+    cursor: pointer;
+    z-index: 200;
+}
+
+/* Hamburger menu toggle — individual bars */
+.menu-toggle span {
+    height: 0.15vw;
+    width: 100%;
+    background-color: var(--body-bg-color);
+    border-radius: 1vmin;
+    transition: var(--transition);
+}
+
+/* Navigation container — wraps the page links menu */
+nav {
+    margin: 0.5vw 0;
+}
+
+/* Navigation list — horizontal row of page links */
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+/* Navigation list item — spacing between each page link */
+nav li {
+    margin: 0 0.8vw;
+}
+
+/* Navigation page link — individual clickable button */
+nav a {
+    color: var(--navigation-button-text-color);
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05vw;
+    padding: 1.0vh 2.0vh;
+    position: relative;
+    transition: var(--transition);
+    -webkit-text-stroke: var(--navigation-button-text-outline-stroke-width) var(--navigation-button-text-outline-color);
+    paint-order: stroke fill;
+    background-color: var(--nagivation-button-background-color);
+    border-bottom: 0.3vw solid var(--nagivation-button-background-border-color);
+    border-radius: 0.5vmin;
+}
+
+/* Navigation page link — hover state */
+nav a:hover {
+    color: var(--navigation-button-text-color-hover);
+    -webkit-text-stroke: var(--navigation-button-text-outline-stroke-width) var(--navigation-button-text-outline-color-hover);
+    paint-order: stroke fill;
+    background-color: var(--nagivation-button-background-color-hover);
+    border-bottom-color: var(--nagivation-button-background-border-color-hover);
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+        width: 6vw;
+        height: 4.2vw;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(1.4vw) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-1.4vw) rotate(-45deg);
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--header-background-color);
+        z-index: 100;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav li {
+        margin: 3vw 0;
+    }
+
+    nav a {
+        font-size: 3.5vw;
+    }
+}
+
+/* Portrait orientation */
+@media (orientation: portrait) {
+    .logo h1 {
+        font-size: 3.5vw;
+    }
+
+    .logo img {
+        border-radius: 2.5vmin;
+        max-height: 8vh;
+    }
+
+    .navbar {
+        padding: 0 2.5vw;
+    }
+
+    nav li {
+        margin: 0 1.5vw;
+    }
+
+    nav a {
+        font-size: 2.5vw;
+        padding: 1vw 1.5vw;
+        letter-spacing: 0.1vw;
+    }
+}

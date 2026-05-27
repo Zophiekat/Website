@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zophiekat</title>
+    <style>html,body{background-color:#171021}</style>
     <link rel="icon" type="image/webp" href="/assets/pfp.webp">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/header_buttons.css">
     <link rel="stylesheet" href="css/gallery.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="assets/icons/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/icons/fontawesome/solid.min.css">
 </head>
 <body>
 
@@ -15,40 +18,122 @@
     <div id="header-placeholder"></div>
     <main>
 
-        <div class="container">  
-                <div class="featured-grid">
-                    <!-- 3D Rigging Feature -->
-                    <div class="featured-item">
-                        <a href="/3d-rigging.html" class="featured-item">
-                            <img src="assets/thumbnails/thumbnail_3d_rigging.webp" alt="3D Rigging">
-                            <div class="featured-info">
-                                <h3>3D Rigging</h3>
-                            </div>
-                        </a>
-                    </div>
+        <div class="gallery-container">
+            <div class="collections-grid" id="collections-grid">
 
-                    <!-- 3D Modelling Feature -->
-                    <div class="featured-item">
-                        <a href="/3d-modelling.html" class="featured-item">
-                            <img src="assets/artwork/3d-modelling/Azazel.webp" alt="3D Modelling">
-                            <div class="featured-info">
-                                <h3>3D Modelling</h3>
-                            </div>
-                        </a>
+                <!-- 3D Rigging Collection -->
+                <div class="collection-folder" data-collection="3d-rigging" data-route="/3d-rigging/" data-icon="assets/icons/blender_icons/blender_icon_bone_data.svg">
+                    <div class="collection-card-face">
+                        <img src="assets/thumbnails/thumbnail_3d_rigging.webp" alt="3D Rigging">
+                        <div class="collection-card-label">
+                            <h3><img src="assets/icons/blender_icons/blender_icon_bone_data.svg" class="collection-card-icon" alt="">3D Rigging</h3>
+                        </div>
                     </div>
-
-                    <!-- Tools Feature -->
-                    <div class="featured-item">
-                        <a href="/tools.html" class="featured-item">
-                            <img src="assets/thumbnails/thumbnail_scripting_render.webp" alt="Tools and Scripting">
-                            <div class="featured-info">
-                                <h3>Tools and Scripting</h3>
+                    <div class="collection-tab">
+                        <img src="assets/icons/blender_icons/blender_icon_bone_data.svg" class="collection-tab-icon" alt="">
+                        <span class="collection-tab-label">3D Rigging</span>
+                    </div>
+                    <div class="collection-content">
+                        <div class="video-container">
+                            <h2>3D Rigging Showreel 2025</h2>
+                            <video controls>
+                                <source src="assets/portfolio/Sophia Martinez - Rigging Showreel 2025.webm" type="video/webm">
+                                <source src="assets/portfolio/Sophia Martinez - Rigging Showreel 2025.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="portfolio-description">
+                                <p></p>
+                                <a href="assets/documents/Sophia Martinez - Resume 2025.pdf" class="btn-primary" target="_blank"><i class="fas fa-file-pdf"></i> Download Resume</a>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
 
-            <section class="about-preview">
+                <!-- 3D Modelling Collection -->
+                <div class="collection-folder" data-collection="3d-modelling" data-route="/3d-modelling/" data-icon="assets/icons/blender_icons/blender_icon_object_data.svg">
+                    <div class="collection-card-face">
+                        <img src="assets/artwork/3d-modelling/Azazel.webp" alt="3D Modelling">
+                        <div class="collection-card-label">
+                            <h3><img src="assets/icons/blender_icons/blender_icon_object_data.svg" class="collection-card-icon" alt="">3D Modelling</h3>
+                        </div>
+                    </div>
+                    <div class="collection-tab">
+                        <img src="assets/icons/blender_icons/blender_icon_object_data.svg" class="collection-tab-icon" alt="">
+                        <span class="collection-tab-label">3D Modelling</span>
+                    </div>
+                    <div class="collection-content">
+                        <div class="gallery-grid">
+
+                            <div class="gallery-item" data-href="/3d-modelling/azazel/">
+                                <img src="assets/artwork/3d-modelling/Azazel.webp" alt="Azazel">
+                                <p>Azazel</p>
+                            </div>
+
+                            <div class="gallery-item" data-href="/3d-modelling/slime-girl/">
+                                <img src="assets/artwork/3d-modelling/slime%20girl.webp" alt="Slime Girl">
+                                <p>Slime Girl</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools and Scripting Collection -->
+                <div class="collection-folder" data-collection="tools" data-route="/tools/" data-icon="assets/icons/blender_icons/blender_icon_file_script.svg">
+                    <div class="collection-card-face">
+                        <img src="assets/thumbnails/thumbnail_scripting_render.webp" alt="Tools and Scripting">
+                        <div class="collection-card-label">
+                            <h3><img src="assets/icons/blender_icons/blender_icon_file_script.svg" class="collection-card-icon" alt="">Tools and Scripting</h3>
+                        </div>
+                    </div>
+                    <div class="collection-tab">
+                        <img src="assets/icons/blender_icons/blender_icon_file_script.svg" class="collection-tab-icon" alt="">
+                        <span class="collection-tab-label">Tools and Scripting</span>
+                    </div>
+                    <div class="collection-content">
+                        <div class="ext-cards">
+
+                            <!-- Display Quad Stars -->
+                            <a class="ext-card"
+                               href="https://extensions.blender.org/approval-queue/display-quad-stars/"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <img class="ext-card__thumbnail"
+                                     src="https://extensions.blender.org/media/thumbnails/c1/c16f9950d71a7114bb947cb66a1e17edcb4b01dba168ca8c91deb050c8fb4344_640x360.webp"
+                                     alt="Display Quad Stars thumbnail">
+                                <div class="ext-card__body">
+                                    <span class="ext-card__type">Add-on</span>
+                                    <h3 class="ext-card__title">Display Quad Stars</h3>
+                                    <p class="ext-card__desc">Highlights quad stars on meshes</p>
+                                    <div class="ext-card__tags">
+                                        <span class="ext-card__tag">3D View</span>
+                                        <span class="ext-card__tag">Mesh</span>
+                                    </div>
+                                    <span class="ext-card__author">Zophiekat</span>
+                                    <div class="ext-card__footer">
+                                        <div class="ext-card__rating">
+                                            <span class="ext-stars" title="0 out of 5">
+                                                <span class="ext-stars__fill" style="width: 0%"></span>
+                                            </span>
+                                            <span>(0)</span>
+                                        </div>
+                                        <div class="ext-card__downloads">
+                                            <i class="fa-solid fa-download" style="font-size:0.65rem"></i>
+                                            0
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="container">
+            <section class="about-preview" id="about-section">
                 <div class="about-content">
                     <h2>I'm a Rigging and Tech Artist!</h2>
                     <p>I also happen to be a 3D Generalist, I do all things 3D art and enjoy working with people on art projects with varying types of art styles and mediums.</p>

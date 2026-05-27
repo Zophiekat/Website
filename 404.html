@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        // SPA redirect — preserve the route so index.html can expand the right collection
+        const path = window.location.pathname.replace(/^\/|\/$/g, '');
+        if (path) {
+            sessionStorage.setItem('spa-redirect-route', path);
+        }
+        window.location.replace('/');
+    </script>
+</head>
+<body></body>
+</html>
