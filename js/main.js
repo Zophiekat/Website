@@ -182,69 +182,144 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Image gallery lightbox
-    // Use event delegation for dynamically loaded images or just wait for load
-    // Since images are hardcoded in HTML, this is fine, but let's be safe
+    // Gallery item click — load artwork page as overlay, or show detail panel
     const galleryGrid = document.querySelector('.gallery-grid');
-    if (galleryGrid) {
+    if (galleryGrid && !galleryGrid.dataset.lightboxBound) {
         galleryGrid.addEventListener('click', function(e) {
-            if (e.target.tagName === 'IMG') {
-                openLightbox(e.target);
+            const item = e.target.closest('.gallery-item');
+            if (!item) return;
+            if (item.dataset.href) {
+                openArtworkPage(item.dataset.href);
+            } else {
+                openArtworkDetail(item);
+            }
+        });
+        galleryGrid.dataset.lightboxBound = 'true';
+    }
+
+    // Prevent layout shift when hiding body scroll by compensating for scrollbar width
+    function lockBodyScroll() {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = 'hidden';
+        if (scrollbarWidth > 0) document.body.style.paddingRight = scrollbarWidth + 'px';
+    }
+    function unlockBodyScroll() {
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    }
+
+    function openArtworkDetail(item) {
+        const img = item.querySelector('img');
+        const title = (img && img.alt) || item.querySelector('p')?.textContent || 'Artwork';
+        const src = img ? img.src : '';
+        const description = item.dataset.description || '';
+        const date = item.dataset.date || '';
+        const tagsRaw = item.dataset.tags || '';
+        const downloadUrl = item.dataset.download || '';
+        const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+        const dateHTML = date ? `<span class="artwork-detail__date">${date}</span>` : '';
+        const descHTML = description ? `<p class="artwork-detail__description">${description}</p>` : '';
+        const tagsHTML = tags.length ? `<div class="artwork-detail__tags">${tags.map(t => `<span class="artwork-detail__tag">${t}</span>`).join('')}</div>` : '';
+        const downloadHTML = downloadUrl ? `<a class="artwork-detail__download" href="${downloadUrl}" download>&#8595; Download</a>` : '';
+
+        const panel = document.createElement('div');
+        panel.className = 'artwork-detail';
+        panel.innerHTML = `
+            <div class="artwork-detail__inner">
+                <header class="artwork-detail__header">
+                    <button class="artwork-detail__back">&#8592; Back</button>
+                </header>
+                <div class="artwork-detail__content">
+                    <img class="artwork-detail__image" src="${src}" alt="${title}">
+                    <div class="artwork-detail__info">
+                        <h2 class="artwork-detail__title">${title}</h2>
+                        ${dateHTML}
+                        ${descHTML}
+                        ${tagsHTML}
+                        ${downloadHTML}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(panel);
+        lockBodyScroll();
+
+        const closeDetail = () => {
+            panel.remove();
+            unlockBodyScroll();
+        };
+
+        panel.querySelector('.artwork-detail__back').addEventListener('click', closeDetail);
+        panel.addEventListener('click', e => { if (e.target === panel) closeDetail(); });
+        document.addEventListener('keydown', function escHandler(e) {
+            if (e.key === 'Escape') {
+                closeDetail();
+                document.removeEventListener('keydown', escHandler);
             }
         });
     }
 
-    function openLightbox(image) {
-        // Create lightbox elements
-        const lightbox = document.createElement('div');
-        lightbox.classList.add('lightbox');
-        
-        const lightboxContent = document.createElement('div');
-        lightboxContent.classList.add('lightbox-content');
-        
-        const closeBtn = document.createElement('span');
-        closeBtn.classList.add('close-lightbox');
-        closeBtn.innerHTML = '&times;';
-        
-        const img = document.createElement('img');
-        img.src = image.src;
-        img.alt = image.alt;
-        
-        const caption = document.createElement('p');
-        caption.textContent = image.alt || 'Artwork';
-        
-        // Assemble and append lightbox to page
-        lightboxContent.appendChild(closeBtn);
-        lightboxContent.appendChild(img);
-        lightboxContent.appendChild(caption);
-        lightbox.appendChild(lightboxContent);
-        document.body.appendChild(lightbox);
-        
-        // Prevent scrolling when lightbox is open
-        document.body.style.overflow = 'hidden';
-        
-        // Close lightbox function
-        const closeLightbox = function() {
-            document.body.removeChild(lightbox);
-            document.body.style.overflow = '';
-        };
-        
-        // Close lightbox events
-        closeBtn.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) {
-                closeLightbox();
+    async function openArtworkPage(href, options = {}) {
+        const shouldPushState = options.pushState !== false;
+        try {
+            const response = await fetch(href);
+            if (!response.ok) throw new Error('Not found');
+            const html = await response.text();
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const article = doc.querySelector('article.artwork-detail');
+            if (!article) throw new Error('No artwork-detail article found');
+
+            // Import into main document and switch to overlay mode
+            const panel = document.importNode(article, true);
+            panel.classList.remove('artwork-detail--page');
+
+            // Push card below the sticky header
+            const headerEl = document.getElementById('header-placeholder');
+            if (headerEl) panel.style.paddingTop = (headerEl.offsetHeight + 16) + 'px';
+
+            document.body.appendChild(panel);
+            lockBodyScroll();
+
+            // Update URL after appending so image src resolves against the current base first
+            if (shouldPushState) {
+                history.pushState({ type: 'artwork', href }, '', href);
             }
-        });
-        
-        // Close on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeLightbox();
-            }
-        });
+
+            const closePanel = () => {
+                panel.remove();
+                unlockBodyScroll();
+                // Go back in history to restore the collection URL
+                if (shouldPushState) history.back();
+            };
+
+            // Prevent the back link from navigating — close overlay instead
+            panel.querySelector('.artwork-detail__back')?.addEventListener('click', e => {
+                e.preventDefault();
+                closePanel();
+            });
+            let panelDownX = 0, panelDownY = 0;
+            panel.addEventListener('pointerdown', e => { panelDownX = e.clientX; panelDownY = e.clientY; });
+            panel.addEventListener('click', e => {
+                const dx = e.clientX - panelDownX, dy = e.clientY - panelDownY;
+                if (Math.sqrt(dx * dx + dy * dy) > 5) return; // drag / text selection — ignore
+                if (!e.target.closest('a, button, img, p, h1, h2, h3, h4, h5, h6, span, li, time, label, code, pre, strong, em')) closePanel();
+            });
+            document.addEventListener('keydown', function escHandler(e) {
+                if (e.key === 'Escape') {
+                    closePanel();
+                    document.removeEventListener('keydown', escHandler);
+                }
+            });
+        } catch (err) {
+            console.error('Could not load artwork page:', err);
+            window.location.href = href; // fallback: navigate directly
+        }
     }
-    
+
     // Form validation for contact form
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
@@ -335,13 +410,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Check URL on initial load — expand matching collection
+        // Check URL on initial load — expand matching collection or open artwork overlay
         const route = getRouteFromURL();
-        if (route && collectionRoutes[route]) {
-            const target = grid.querySelector(`[data-collection="${collectionRoutes[route]}"]`);
-            if (target) {
-                // Expand immediately without animation on initial load
-                expandCollection(target, true);
+        if (route) {
+            if (collectionRoutes[route]) {
+                const target = grid.querySelector(`[data-collection="${collectionRoutes[route]}"]`);
+                if (target) expandCollection(target, true);
+            } else {
+                // Check if this is an artwork page URL (e.g. 3d-modelling/azazel)
+                const artworkItem = document.querySelector(`.gallery-item[data-href="/${route}/"]`);
+                if (artworkItem) {
+                    const parentFolder = artworkItem.closest('.collection-folder');
+                    if (parentFolder) expandCollection(parentFolder, true);
+                    // Open overlay without pushing state — we're already at the right URL
+                    openArtworkPage(artworkItem.dataset.href, { pushState: false });
+                }
             }
         }
 
@@ -351,8 +434,33 @@ document.addEventListener('DOMContentLoaded', function() {
             const grid = document.getElementById('collections-grid');
             if (!grid) return;
 
-            const currentExpanded = grid.querySelector('.collection-folder.expanded');
+            // Check if the new URL is an artwork page
+            const artworkItem = route
+                ? document.querySelector(`.gallery-item[data-href="/${route}/"]`)
+                : null;
 
+            if (artworkItem) {
+                // Forward navigation to an artwork URL — open the overlay
+                const openPanel = document.querySelector('.artwork-detail:not(.artwork-detail--page)');
+                if (!openPanel) {
+                    const parentFolder = artworkItem.closest('.collection-folder');
+                    if (parentFolder && !parentFolder.classList.contains('expanded')) {
+                        expandCollection(parentFolder, true);
+                    }
+                    openArtworkPage(artworkItem.dataset.href, { pushState: false });
+                }
+                return;
+            }
+
+            // Close any open artwork overlay (navigated away from artwork URL)
+            const openPanel = document.querySelector('.artwork-detail:not(.artwork-detail--page)');
+            if (openPanel) {
+                openPanel.remove();
+                unlockBodyScroll();
+            }
+
+            // Handle collection expand/collapse
+            const currentExpanded = grid.querySelector('.collection-folder.expanded');
             if (route && collectionRoutes[route]) {
                 const target = grid.querySelector(`[data-collection="${collectionRoutes[route]}"]`);
                 if (target && target !== currentExpanded) {
@@ -411,16 +519,22 @@ document.addEventListener('DOMContentLoaded', function() {
             grid.classList.add('has-expanded');
             folder.classList.add('expanded');
             if (aboutSection) aboutSection.classList.add('hidden');
-            // Scroll to top of the collection
-            folder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
         }
 
-        // Re-bind lightbox for gallery images inside this collection
+        // Build sibling tab row
+        buildTabRow(folder);
+
+        // Bind artwork detail handler for gallery images inside this collection
         const galleryGrid = folder.querySelector('.gallery-grid');
         if (galleryGrid && !galleryGrid.dataset.lightboxBound) {
             galleryGrid.addEventListener('click', function(e) {
-                if (e.target.tagName === 'IMG') {
-                    openLightbox(e.target);
+                const item = e.target.closest('.gallery-item');
+                if (!item) return;
+                if (item.dataset.href) {
+                    openArtworkPage(item.dataset.href);
+                } else {
+                    openArtworkDetail(item);
                 }
             });
             galleryGrid.dataset.lightboxBound = 'true';
@@ -440,17 +554,58 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset page title
         document.title = 'Zophiekat';
 
+        // Tear down sibling tab row
+        teardownTabRow(folder);
+
         // Remove expanded state
         folder.classList.remove('expanded');
         grid.classList.remove('has-expanded');
         if (aboutSection) aboutSection.classList.remove('hidden');
 
         if (!instant) {
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'instant' });
         }
     }
 
     // ══════════════════════════════════════════════
+
+    function buildTabRow(folder) {
+        const grid = document.getElementById('collections-grid');
+        const folders = Array.from(grid.querySelectorAll('.collection-folder'));
+        const tab = folder.querySelector('.collection-tab');
+
+        const row = document.createElement('div');
+        row.className = 'collection-tab-row';
+
+        // Insert row before the active tab, then populate in DOM order
+        folder.insertBefore(row, tab);
+
+        folders.forEach(f => {
+            if (f === folder) {
+                // Active tab — move the existing element into the row
+                row.appendChild(tab);
+            } else {
+                const label = f.querySelector('.collection-tab-label').textContent;
+                const iconSrc = f.dataset.icon;
+                const iconHTML = iconSrc ? `<img src="${iconSrc}" class="collection-tab-icon" alt="">` : '';
+                const sibTab = document.createElement('div');
+                sibTab.className = 'collection-sibling-tab';
+                sibTab.innerHTML = `${iconHTML}<span class="collection-tab-label">${label}</span>`;
+                sibTab.addEventListener('click', () => {
+                    collapseCollection(folder);
+                    expandCollection(f);
+                });
+                row.appendChild(sibTab);
+            }
+        });
+    }
+
+    function teardownTabRow(folder) {
+        const row = folder.querySelector('.collection-tab-row');
+        if (!row) return;
+        const tab = row.querySelector('.collection-tab');
+        if (tab) folder.insertBefore(tab, row);
+        row.remove();
+    }
 
 });

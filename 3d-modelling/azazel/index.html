@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azazel — Zophiekat</title>
+    <!-- base href resolves all relative paths (CSS, JS, fetches) from the site root -->
+    <base href="/">
+    <script>
+        // When loaded directly by the browser, hand off to the SPA and reopen as an overlay
+        const path = window.location.pathname.replace(/^\/|\/$/g, '');
+        if (path) {
+            sessionStorage.setItem('spa-redirect-route', path);
+            window.location.replace('/');
+        }
+    </script>
+    <link rel="icon" type="image/webp" href="assets/pfp.webp">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/header_buttons.css">
+    <link rel="stylesheet" href="css/gallery.css">
+    <link rel="stylesheet" href="assets/icons/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="assets/icons/fontawesome/solid.min.css">
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <article class="artwork-detail artwork-detail--page">
+            <div class="artwork-detail__inner">
+
+                <a class="artwork-detail__back" href="/3d-modelling/">
+                    <img src="/assets/icons/blender_icons/blender_icon_back.svg" alt="Back">
+                </a>
+
+                <div class="artwork-detail__content">
+                    <img class="artwork-detail__image"
+                         src="/assets/artwork/3d-modelling/Azazel.webp"
+                         alt="Azazel">
+
+                    <div class="artwork-detail__info">
+                        <h2 class="artwork-detail__title">Azazel</h2>
+
+                        <!-- Uncomment and fill in as needed: -->
+
+                        <span class="artwork-detail__date">3 October 2021</span>
+
+                        <div class="artwork-detail__software">
+                            <h3 class="artwork-detail__section-label">Software</h3>
+                            <div class="artwork-detail__software-list">
+                                <button class="software-btn" type="button">
+                                    <img class="software-btn__icon" src="/assets/icons/software_icons/blender_icon.png" alt="Blender">
+                                    <span class="software-btn__label">Blender</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="artwork-detail__description">
+                            Fan art of the character "Azazel" from the game "Helltaker".
+                        </p>
+
+                        <!-- <div class="artwork-detail__tags">
+                            <span class="artwork-detail__tag">3D Modelling</span>
+                            <span class="artwork-detail__tag">Blender</span>
+                        </div> -->
+
+                        <!-- <a class="artwork-detail__download" href="assets/..." download>&#8595; Download</a> -->
+
+                    </div>
+                </div>
+
+            </div>
+        </article>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

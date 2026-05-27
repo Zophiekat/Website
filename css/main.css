@@ -22,6 +22,7 @@
     --secondary-accent-color: #91590f; /* was --dark-color */
     --light-text-color: #ffffff;      /* was --text-color */
     --container-bg-color: rgb(20, 16, 23);      /* NEW: for sections and content containers */
+    --container-bg-color-rgb: 20, 16, 23;       /* RGB channels for rgba() usage */
     --border-radius: 1.5vmin;
     --shadow-h-offset: 0;          /* horizontal offset (no shift) */
     --shadow-v-offset: 1px;       /* vertical offset (down) */
