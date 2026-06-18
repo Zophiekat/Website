@@ -27,8 +27,10 @@
     --shadow-h-offset: 0;          /* horizontal offset (no shift) */
     --shadow-v-offset: 1px;       /* vertical offset (down) */
     --shadow-blur: 0.85vw;           /* blur radius */
-    --shadow-color: rgba(44, 38, 117, 0.5);  /* shadow color with 50% opacity */
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --shadow-color_hover: rgba(44, 38, 117, 0.5);
     --box-shadow: var(--shadow-h-offset) var(--shadow-v-offset) var(--shadow-blur) var(--shadow-color);
+    --box-shadow_hover: var(--shadow-h-offset) var(--shadow-v-offset) var(--shadow-blur) var(--shadow-color_hover);
     --transition: all 0.1s ease;
 }
 

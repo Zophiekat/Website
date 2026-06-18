@@ -221,6 +221,13 @@
     margin-top: 1.5vw;
 }
 
+.contributions-column {
+    display: flex;
+    flex-direction: column; /* Stacks the items vertically */
+    gap: 1.3vw;
+    margin-top: 1.5vw;
+}
+
 .gallery-item {
     position: relative;
     overflow: hidden;
@@ -230,8 +237,29 @@
     cursor: pointer;
 }
 
+.contributions-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--gallery-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: var(--transition);
+    cursor: pointer;
+    
+    /* Forces the inner contents (img & p) into a side-by-side row */
+    display: flex;
+    align-items: center; /* Vertically centers the image and text */
+    gap: 0vw; /* Adds space between the image and the text */
+    padding: 0.6vw 0vw; /* Adds some inner breathing room */
+    background-color: var(--container-bg-color); /* Gives it a solid button feel */
+}
+
+
 .gallery-item:hover {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--box-shadow_hover)
+}
+
+.contributions-item:hover {
+    box-shadow: var(--box-shadow_hover)
 }
 
 .gallery-item img {
@@ -242,6 +270,15 @@
     transition: var(--transition);
 }
 
+.contributions-item img {
+    width: 10%;
+    height: 3vh;
+    object-fit: contain;
+    display: block;
+    transition: var(--transition);
+    flex-shrink: 0; /* Keeps the image from shrinking in the flex row */
+}
+
 .gallery-item:hover img {
     transform: scale(1.05);
 }
@@ -250,6 +287,13 @@
     padding: 0.8vw;
     background-color: var(--container-bg-color);
     margin: 0;
+    font-weight: 500;
+}
+
+.contributions-item p {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
     font-weight: 500;
 }
 
@@ -434,6 +478,36 @@
 }
 
 .software-btn__label {
+    font-size: 0.7rem;
+    color: #aaa;
+}
+
+
+.contribution-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.contribution-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.contribution-btn__icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+}
+
+.contribution-btn__label {
     font-size: 0.7rem;
     color: #aaa;
 }
