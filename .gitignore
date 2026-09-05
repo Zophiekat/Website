@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 __pycache__/
 *.log
+_gsdata_/_insync_v4.gsl
+_gsdata_/_file_state_v4._gs
